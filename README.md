@@ -6,4 +6,4 @@ It is assumed that each python script is run from the same directory where that 
 
 Python modules required by this code are numpy, scipy, matpotlib, pandas, xarray, datetime, windrose, pyrsktools, gsw, glob, os, sys, inspect, cmocean, matplotlib-scalebar
 
-
+These scripts were adapted from those created by May Wang and available on her github here: https://github.com/maynwang/IMS.
