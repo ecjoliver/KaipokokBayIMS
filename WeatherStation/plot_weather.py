@@ -1,24 +1,9 @@
 '''
-Create the weather station netcdf file and plot the summary onto one big subplot
+    Plot weather station data
 '''
 
-import numpy as np
-from matplotlib import pyplot as plt
-import matplotlib as mpl
-mpl.interactive(True)
-import pandas as pd
-import glob
-import os
-import xarray as xr
-import datetime
-import warnings; warnings.simplefilter('ignore')
-import sys
-sys.path.append(os.path.abspath('../../'))
-from functions import IMS_toolbox as IMS
-from windrose import WindroseAxes, plot_windrose
-
 # Some globals
-exec(open('../globals.py').read()) # year[transect], pathroot
+exec(open('../globals.py').read()) # modules, year, pathroot
 
 # Load data
 #ds = xr.open_dataset('Weather/data/2024/WeatherVars_CR1000X.nc') # Logger data
@@ -55,8 +40,8 @@ ylims=[-0.5, 12]
 x = ds_hourly['time']
 
 axx[0].plot(x,wind_speed,color='black')
-axx[0].set_ylabel('(m/s)',color='black',fontdict={'fontsize':labelfontsz})
-axx[0].set_title('Wind Speed & Direction')
+axx[0].set_ylabel('m/s',color='black',fontdict={'fontsize':labelfontsz})
+axx[0].set_title('Wind Speed & Direction', y=0.95)
 axx[0].set_ylim([0, 20])
 # plot wind direction on same subplot
 par1 = axx[0].twinx()
@@ -70,13 +55,13 @@ par1.set_ylim([0, 360])
 # Air Pressure
 axx[1].plot(x,ds_hourly.BP_mbar_Avg,'black')
 axx[1].set_ylabel("mbar",fontdict={'fontsize':labelfontsz})
-axx[1].set_title('Barometric Pressure')
+axx[1].set_title('Barometric Pressure', y=0.95)
 #par1.set_ylim([50, 100])
 
 # air temperature
 axx[2].plot(x,ds_hourly.AirT_C_Avg,'m',label='Air temperature')
-axx[2].set_ylabel(' ($^\circ$C)',fontdict={'fontsize':labelfontsz})
-axx[2].set_title('Air Temperature')
+axx[2].set_ylabel('$^\circ$C',fontdict={'fontsize':labelfontsz})
+axx[2].set_title('Air Temperature', y=0.95)
 axx[2].set_yticks([-30,-20,-10,0])
 
 # Dew point
@@ -86,36 +71,36 @@ axx[2].legend(loc='upper left')
 # Relative humidity
 #axx[3].plot(x,ds_hourly.Humidity,'black')
 axx[3].plot(x,ds_hourly.RH,'black')
-axx[3].set_ylabel(' (%)',fontdict={'fontsize':labelfontsz})
-axx[3].set_title('Relative humidity')
+axx[3].set_ylabel('%',fontdict={'fontsize':labelfontsz})
+axx[3].set_title('Relative humidity', y=0.95)
 
 # Longwave radiation
 axx[4].plot(x,abs(ds_hourly.LWUpper_Avg),'teal',alpha=0.5)
 axx[4].plot(x,abs(ds_hourly.LWLower_Avg),'brown')
 axx[4].legend(['Incoming LWR','Outgoing LWR'],loc='upper left')
-axx[4].set_ylabel('($W/m^2$)',fontdict={'fontsize':labelfontsz})
-axx[4].set_title('Longwave Radiation')
+axx[4].set_ylabel('$W/m^2$',fontdict={'fontsize':labelfontsz})
+axx[4].set_title('Longwave Radiation', y=0.95)
 
 # Shortwave Radiation
 axx[5].plot(x,ds_hourly.SWUpper_Avg,'teal',alpha=0.5)
 axx[5].plot(x,ds_hourly.SWLower_Avg,'brown')
 axx[5].legend(['Incoming SWR','Outgoing SWR'])
-axx[5].set_ylabel('($W/m^2$)',fontdict={'fontsize':labelfontsz})
-axx[5].set_title('Shortwave Radiation')
+axx[5].set_ylabel('$W/m^2$',fontdict={'fontsize':labelfontsz})
+axx[5].set_title('Shortwave Radiation', y=0.95)
 
 # Net radiation
 hnSW = axx[6].plot(x,ds_hourly.RsNet_Avg,'orange')
 hnLW = axx[6].plot(x,ds_hourly.RlNet_Avg,'forestgreen')
 axx[6].legend(['Net SW','Net LW'],loc='upper left')
-axx[6].set_ylabel('($W/m^2$)',fontdict={'fontsize':labelfontsz});
-axx[6].set_title('Net Radiation')
+axx[6].set_ylabel('$W/m^2$',fontdict={'fontsize':labelfontsz});
+axx[6].set_title('Net Radiation', y=0.95)
 
 # Albedo
 axx[7].plot(x, albedo_hourly,'navy',label='Raw albedo')
 axx[7].plot(x, albedo_hourly_clean,'red',linewidth=4,label='Clean albedo') # "Cleaned" albedo
 axx[7].legend(loc='lower left')
-axx[7].set_ylabel('Albedo',fontdict={'fontsize':labelfontsz});
-axx[7].set_title('Albedo')
+#axx[7].set_ylabel('Albedo',fontdict={'fontsize':labelfontsz});
+axx[7].set_title('Albedo', y=0.95)
 axx[7].set_ylim([0,1])
 
 # Set x-axis and labels
@@ -143,7 +128,7 @@ ax = WindroseAxes.from_ax()
 # ax.bar(ds.WindDir_D1_WVT, ds.WS_ms_Avg, bins=np.arange(0,15,2), normed=True, opening=0.8, edgecolor='white')
 ax.bar(wind_dir, wind_speed, bins=np.arange(0,15,2), normed=True, opening=0.8, edgecolor='white')
 
-ax.set_legend()
+ax.set_legend(title='Wind speed (m/s)', loc='lower right')
 
 #
 # plt.savefig('../../figures/' + year + '/WeatherStation/WindRose.png', dpi=600, bbox_inches='tight')

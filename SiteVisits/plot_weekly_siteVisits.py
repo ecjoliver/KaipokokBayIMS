@@ -2,17 +2,8 @@
     Plot weekly ice and snow thicknesses
 ''' 
 
-import pandas as pd
-import numpy as np
-import xarray as xr
-import os
-import matplotlib as mpl
-mpl.interactive(True)
-from matplotlib import pyplot as plt
-
 # Some globals
-pathroot = os.path.abspath('../../../../')
-year = '2026'
+exec(open('../globals.py').read()) # modules, year, pathroot
 
 # Load in NetCDF file of site visit data
 ds = xr.open_dataset(pathroot + '/data/' + year + '/SiteVisits/SiteVisits_Weekly_IceSnowWater.nc')
@@ -35,7 +26,7 @@ plt.plot(ds.time, ds.hs_snowStake_7, '.', color='0.5', zorder=15)
 plt.plot(ds.time, ds.hs_snowStake_8, '.', color='0.5', zorder=15)
 plt.plot(ds.time, ds.hs_snowStake_9, '.', color='0.5', zorder=15)
 plt.legend()
-plt.ylabel('h [m]')
+plt.ylabel(r'$h$ (m)')
 
-# plt.savefig(pathroot + '/figures/' + year + '/SiteVisits/SiteVisits_Weekly_IceSnowWater.png', dpi=600, bbox_inches='tight')
+# plt.savefig('../../figures/' + year + '/SiteVisits/SiteVisits_Weekly_IceSnowWater.png', dpi=600, bbox_inches='tight')
 

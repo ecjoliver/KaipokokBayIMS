@@ -2,14 +2,8 @@
     Load weekly ice and snow thicknesses and generate a file from the data
 ''' 
 
-import pandas as pd
-import numpy as np
-import xarray as xr
-import os
-
 # Some globals
-pathroot = os.path.abspath('../../')
-year = '2026'
+exec(open('../globals.py').read()) # modules, year, pathroot
 
 # Load in Excel sheet of Site Visit (meta)data
 df = pd.read_excel(pathroot + '/data/' + year + '/SiteVisits/SiteVisits_' + year + '_MetaData.xlsx', header=1)

@@ -2,20 +2,6 @@
 Create the weather station netcdf file and plot the summary onto one big subplot
 '''
 
-import numpy as np
-from matplotlib import pyplot as plt
-import matplotlib as mpl
-mpl.interactive(True)
-import pandas as pd
-import glob
-import os
-import xarray as xr
-import datetime
-import warnings; warnings.simplefilter('ignore')
-import sys
-sys.path.append(os.path.abspath('../../'))
-from functions import IMS_toolbox as IMS
-
 #
 # Some globals
 #
@@ -24,8 +10,8 @@ from functions import IMS_toolbox as IMS
 # Start on Jan. 26, end April 15 - consistent with other datasets
 # ds = ds.sel(time=slice("2024-01-26","2024-04-15")) 
 
-year = '2026'
-pathroot = os.path.abspath('../../../../')
+# Some globals
+exec(open('../globals.py').read()) # modules, year, pathroot
 time_start = '2026-02-06T00:00.000000000' # Deployment YYYY-MM-DDTHH:MM.MMMM (UTC)
 time_end = '2026-04-21T14:30.000000000' # Recovery YYYY-MM-DDTHH:MM.MMMM (UTC)
 

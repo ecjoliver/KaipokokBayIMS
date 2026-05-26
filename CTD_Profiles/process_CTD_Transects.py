@@ -3,26 +3,11 @@
     Save CTD data as nc file
 '''
 
-import matplotlib as mpl
-mpl.interactive(True)
-from matplotlib import pyplot as plt
-import numpy as np
-from scipy import io
-import pandas as pd
-import cmocean
-import gsw
-import os
-import xarray as xr
-from datetime import datetime
-import sys
-sys.path.append(os.path.abspath('../../'))
-from functions import IMS_toolbox as IMS
-
 #
 # Some globals
 #
 
-exec(open('../globals.py').read()) # year, pathroot
+exec(open('../globals.py').read()) # modules, year, pathroot
 
 # Where the CTD data sits:
 header = '/home/eoliver/Dropbox/Nunatsiavut_Futures/WP2_Data_Repository/CTD/'

@@ -1,23 +1,10 @@
 '''
-Compare the SIMBA temeprature to the weather station air temperature - quality control
+    Compare the SIMBA temeprature to the weather station air temperature - quality control
 '''
 
-import numpy as np 
-import xarray as xr
-import pickle
-import os
-import sys
-sys.path.append(os.path.abspath('../../'))
-from functions import IMS_toolbox as IMS
-import matplotlib.pyplot as plt 
-import scipy
-import pandas as pd
-plt.ion()
-fontsize=12
-
 # Some globals
-year = '2026'
-pathroot = os.path.abspath('../../')
+exec(open('../globals.py').read()) # modules, year, pathroot
+fontsize=12
 
 # Load weather data
 ds_weather = xr.open_dataset(pathroot + '/data/' + year + '/WeatherStation/WeatherVars_SD.nc')
@@ -41,8 +28,8 @@ plt.plot(weath_temp.time, weath_temp.data, 'r-')
 plt.plot(simba_t2m.time, simba_t2m.data, 'k-')
 #plt.plot(simba_t2m.time + np.timedelta64(94368, 'h'), simba_t2m.data)
 plt.legend(['Weather Station','SIMBA'],fontsize=fontsize)
-plt.title('Air temperature comparison at 2-m',fontsize=fontsize)
-plt.ylabel('Air temperature [deg. C]',fontsize=fontsize)
+plt.title('Air temperature comparison',fontsize=fontsize)
+plt.ylabel(r'Air temperature ($^\circ$C)',fontsize=fontsize)
 
 # plt.savefig(pathroot + '/figures/' + year + '/SIMBA/SIMBA_compareWeatherStation.png', dpi=600, bbox_inches='tight')
 

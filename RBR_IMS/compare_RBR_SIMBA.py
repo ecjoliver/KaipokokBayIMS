@@ -2,27 +2,11 @@
    Compare RBR and SIMBA temperatures
 '''
 
-from pyrsktools import RSK as RSK
-import numpy as np
-import matplotlib.pyplot as plt
-import cmocean
-import matplotlib as mpl
-mpl.interactive(True)
-import xarray as xr
-import sys
-import os
-sys.path.append(os.path.abspath('../../'))
-from functions import IMS_toolbox as IMS
-import gsw 
-import matplotlib.ticker as tkr
-import pandas as pd 
-import pickle
-
 #
 # Some globals
 #
 
-exec(open('../globals.py').read())
+exec(open('../globals.py').read()) # modules, year, pathroot
 
 #
 # Load in data

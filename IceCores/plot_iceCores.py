@@ -2,18 +2,8 @@
     Load Kaipokok Bay ice cores and generate plots
 ''' 
 
-import pandas as pd
-import numpy as np
-import xarray as xr
-import os
-import matplotlib as mpl
-mpl.interactive(True)
-from matplotlib import pyplot as plt
-import gsw
-
 # Some globals
-pathroot = os.path.abspath('../../')
-year = '2026'
+exec(open('../globals.py').read()) # modules, year, pathroot
 
 # Load in Excel sheet of Site Visit (meta)data
 xls = pd.ExcelFile(pathroot + '/data/' + year + '/IceCores/IceSalinity_' + year + '.xlsx')

@@ -2,30 +2,13 @@
     Plot profiles from the IMS CTD timeseries
 '''
 
-import matplotlib as mpl
-mpl.interactive(True)
-from matplotlib import pyplot as plt
-import numpy as np
-from scipy import io
-import pandas as pd
-import cmocean
-import gsw
-import os
-import xarray as xr
-from datetime import datetime
-import sys
-sys.path.append(os.path.abspath('../../'))
-from functions import IMS_toolbox as IMS
-from matplotlib.colors import BoundaryNorm, ListedColormap
-#from matplotlib import colormaps as cmaps
-fontsize=12
-
-
 #
 # Some globals
 #
 
-exec(open('../globals.py').read()) # year, pathroot
+exec(open('../globals.py').read()) # modules, year, pathroot
+
+fontsize=12
 
 #
 # Load in data
@@ -53,8 +36,8 @@ for i,ax in enumerate(axes.flatten()):
 	ax.tick_params(axis='both',labelsize=fontsize)
 	ax.set_ylim([-10,0])
 
-axes[0,0].set_ylabel('z (m)',fontsize=fontsize)
-axes[1,0].set_ylabel('z (m)',fontsize=fontsize)
+axes[0,0].set_ylabel(r'$z$ (m)',fontsize=fontsize)
+axes[1,0].set_ylabel(r'$z$ (m)',fontsize=fontsize)
 
 # create a ListedColormap and BoundaryNorm
 cmap = ListedColormap(cm)
@@ -90,8 +73,8 @@ for i,ax in enumerate(axes.flatten()):
         ax.tick_params(axis='both',labelsize=fontsize)
         ax.set_ylim([-55,0])
 
-axes[0,0].set_ylabel('z (m)',fontsize=fontsize)
-axes[1,0].set_ylabel('z (m)',fontsize=fontsize)
+axes[0,0].set_ylabel(r'$z$ (m)',fontsize=fontsize)
+axes[1,0].set_ylabel(r'$z$ (m)',fontsize=fontsize)
 
 # create a ListedColormap and BoundaryNorm
 cmap = ListedColormap(cm)
@@ -184,7 +167,7 @@ plt.scatter(ctd['Absolute_Salinity'],ctd['Conservative_Temperature'],c=ctd['Chlo
 plt.colorbar(label=r'$\mu$g/L')
 plt.title('Chlorophyll')
 plt.ylabel(r'Temperature, $\Theta$ [$^\circ$C]')
-plt.xlabel(r'Salinity, $S_\mathrm{A}$ [g/kg]')
+plt.xlabel(r'Salinity, $S_\mathrm{A}$ (g/kg)')
 plt.ylim([y1,y2])
 plt.xlim([0,34])
 # CDOM
@@ -196,7 +179,7 @@ plt.plot(Sfr, Tfr_50, '-.', color='0.85', zorder=5)
 plt.scatter(ctd['Absolute_Salinity'],ctd['Conservative_Temperature'],c=ctd['CDOM'],marker='.',cmap=cmocean.cm.matter, zorder=10)
 plt.colorbar(label='ppb')
 plt.title('CDOM')
-plt.xlabel(r'Salinity, $S_\mathrm{A}$ [g/kg]')
+plt.xlabel(r'Salinity, $S_\mathrm{A}$ (g/kg)')
 plt.ylim([y1,y2])
 plt.xlim([0,34])
 # Backscaatter
@@ -208,7 +191,7 @@ plt.plot(Sfr, Tfr_50, '-.', color='0.85', zorder=5)
 plt.scatter(ctd['Absolute_Salinity'],ctd['Conservative_Temperature'],c=ctd['Backscatter'],marker='.',cmap=cmocean.cm.turbid, zorder=10)
 plt.colorbar(label=r'm$^{-1}$ sr$^{-1}$')
 plt.title('Backscatter')
-plt.xlabel(r'Salinity, $S_\mathrm{A}$ [g/kg]')
+plt.xlabel(r'Salinity, $S_\mathrm{A}$ (g/kg)')
 plt.ylim([y1,y2])
 plt.xlim([0,34])
 #
@@ -286,7 +269,7 @@ ax.spines['bottom'].set_visible(False)
 ax = plt.subplot2grid((7,w), (2,0), rowspan=1, colspan=w-1, facecolor=bgcol)
 plt.pcolormesh(ddate['Conservative_Temperature'], -ddepth['Conservative_Temperature'], ctdS['Conservative_Temperature'], cmap=cmocean.cm.thermal)
 plt.clim(np.nanpercentile(ctdS['Conservative_Temperature'], pl), np.nanpercentile(ctdS['Conservative_Temperature'], pu))
-plt.ylabel('z (m)')
+plt.ylabel(r'$z$ (m)')
 plt.xlim(ctd.date[0], ctd.date[-1])
 ax.set_xticklabels([])
 plt.ylim(-1.*np.nanmax(ddepth['Conservative_Temperature']), -1.*D)
@@ -310,7 +293,7 @@ ax.spines['bottom'].set_visible(False)
 ax = plt.subplot2grid((7,w), (4,0), rowspan=1, colspan=w-1, facecolor=bgcol)
 plt.pcolormesh(ddate['Absolute_Salinity'], -ddepth['Absolute_Salinity'], ctdS['Absolute_Salinity'], cmap=cmocean.cm.haline)
 plt.clim(np.nanpercentile(ctdS['Absolute_Salinity'], pl), np.nanpercentile(ctdS['Absolute_Salinity'], pu))
-plt.ylabel('z (m)')
+plt.ylabel(r'$z$ (m)')
 plt.xlim(ctd.date[0], ctd.date[-1])
 ax.set_xticklabels([])
 plt.ylim(-1.*np.nanmax(ddepth['Absolute_Salinity']), -1.*D)
@@ -334,7 +317,7 @@ ax.spines['bottom'].set_visible(False)
 ax = plt.subplot2grid((7,w), (6,0), rowspan=1, colspan=w-1, facecolor=bgcol)
 plt.pcolormesh(ddate['Potential_Density'], -ddepth['Potential_Density'], ctdS['Potential_Density'], cmap=cmocean.cm.dense)
 plt.clim(np.nanpercentile(ctdS['Potential_Density'], pl), np.nanpercentile(ctdS['Potential_Density'], pu))
-plt.ylabel('z (m)')
+plt.ylabel(r'$z$ (m)')
 plt.xlim(ctd.date[0], ctd.date[-1])
 plt.ylim(-1.*np.nanmax(ddepth['Potential_Density']), -1.*D)
 bbox2 = ax.get_position().get_points()
@@ -373,7 +356,7 @@ ax.spines['bottom'].set_visible(False)
 ax = plt.subplot2grid((7,w), (2,0), rowspan=1, colspan=w-1, facecolor=bgcol)
 plt.pcolormesh(ddate['Salinity'][1:,:], z_mid, N2, cmap=cmocean.cm.tempo)
 plt.clim(np.nanpercentile(N2, pl), np.nanpercentile(N2, pu))
-plt.ylabel('z (m)')
+plt.ylabel(r'$z$ (m)')
 ax.set_xlim(ctd.date[0], ctd.date[-1])
 ax.set_xticklabels([])
 plt.ylim(-1.*Dmax, -1.*D)
@@ -397,7 +380,7 @@ ax.spines['bottom'].set_visible(False)
 ax = plt.subplot2grid((7,w), (4,0), rowspan=1, colspan=w-1, facecolor=bgcol)
 plt.pcolormesh(ddate['Sound Speed'], -ddepth['Sound Speed'], ctdS['Sound Speed'], cmap=cmocean.cm.speed)
 plt.clim(np.nanpercentile(ctdS['Sound Speed'], pl), np.nanpercentile(ctdS['Sound Speed'], pu))
-plt.ylabel('z (m)')
+plt.ylabel(r'$z$ (m)')
 ax.set_xlim(ctd.date[0], ctd.date[-1])
 ax.set_xticklabels([])
 plt.ylim(-1.*Dmax, -1.*D)
@@ -421,7 +404,7 @@ ax.spines['bottom'].set_visible(False)
 ax = plt.subplot2grid((7,w), (6,0), rowspan=1, colspan=w-1, facecolor=bgcol)
 plt.pcolormesh(ddate['Conservative_Temperature'], -ddepth['Conservative_Temperature'], ctdS['Conservative_Temperature'] - ctdS['Freezing_Temperature'], cmap=cmocean.cm.balance)
 plt.clim(-np.nanpercentile(np.abs(ctdS['Conservative_Temperature'] - ctdS['Freezing_Temperature']), pu), np.nanpercentile(np.abs(ctdS['Conservative_Temperature'] - ctdS['Freezing_Temperature']), pu))
-plt.ylabel('z (m)')
+plt.ylabel(r'$z$ (m)')
 ax.set_xlim(ctd.date[0], ctd.date[-1])
 plt.ylim(-1.*Dmax, -1.*D)
 bbox2 = ax.get_position().get_points()
@@ -452,7 +435,7 @@ ax.set_title('IMS Time Series ' + year, fontsize=16)
 ax = plt.subplot2grid((8,w), (1,0), rowspan=1, colspan=w-1, facecolor=bgcol)
 plt.pcolormesh(ddate['Chlorophyll'], -ddepth['Chlorophyll'], ctdS['Chlorophyll'], cmap=cmocean.cm.algae)
 plt.clim(np.nanpercentile(ctdS['Chlorophyll'], pl), np.nanpercentile(ctdS['Chlorophyll'], pu))
-plt.ylabel('z (m)')
+plt.ylabel(r'$z$ (m)')
 ax.set_xlim(ctd.date[0], ctd.date[-1])
 ax.set_xticklabels([])
 plt.ylim(-1.*Dmax, -1.*D)
@@ -476,7 +459,7 @@ ax.spines['bottom'].set_visible(False)
 ax = plt.subplot2grid((8,w), (3,0), rowspan=1, colspan=w-1, facecolor=bgcol)
 plt.pcolormesh(ddate['CDOM'], -ddepth['CDOM'], ctdS['CDOM'], cmap=cmocean.cm.matter)
 plt.clim(np.nanpercentile(ctdS['CDOM'], pl), np.nanpercentile(ctdS['CDOM'], pu))
-plt.ylabel('z (m)')
+plt.ylabel(r'$z$ (m)')
 ax.set_xlim(ctd.date[0], ctd.date[-1])
 ax.set_xticklabels([])
 plt.ylim(-1.*Dmax, -1.*D)
@@ -500,7 +483,7 @@ ax.spines['bottom'].set_visible(False)
 ax = plt.subplot2grid((8,w), (5,0), rowspan=1, colspan=w-1, facecolor=bgcol)
 plt.pcolormesh(ddate['Backscatter'], -ddepth['Backscatter'], ctdS['Backscatter'], cmap=cmocean.cm.turbid)
 plt.clim(np.nanpercentile(ctdS['Backscatter'], pl), np.nanpercentile(ctdS['Backscatter'], pu))
-plt.ylabel('z (m)')
+plt.ylabel(r'$z$ (m)')
 ax.set_xlim(ctd.date[0], ctd.date[-1])
 ax.set_xticklabels([])
 plt.ylim(-1.*Dmax, -1.*D)
@@ -524,7 +507,7 @@ ax.spines['bottom'].set_visible(False)
 ax = plt.subplot2grid((8,w), (7,0), rowspan=1, colspan=w-1, facecolor=bgcol)
 plt.pcolormesh(ddate['Oxygen Saturation'], -ddepth['Oxygen Saturation'], ctdS['Oxygen Saturation'], cmap=cmocean.cm.tempo)
 plt.clim(np.nanpercentile(ctdS['Oxygen Saturation'], pl), np.nanpercentile(ctdS['Oxygen Saturation'], pu))
-plt.ylabel('z (m)')
+plt.ylabel(r'$z$ (m)')
 ax.set_xlim(ctd.date[0], ctd.date[-1])
 plt.ylim(-1.*Dmax, -1.*D)
 bbox2 = ax.get_position().get_points()

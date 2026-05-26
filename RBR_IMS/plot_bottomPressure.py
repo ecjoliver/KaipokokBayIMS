@@ -7,28 +7,11 @@
 
 '''
 
-
-from pyrsktools import RSK as RSK
-import numpy as np
-import matplotlib.pyplot as plt
-import cmocean
-import matplotlib as mpl
-mpl.interactive(True)
-import xarray as xr
-import sys
-import os
-sys.path.append(os.path.abspath('../../'))
-from functions import IMS_toolbox as IMS
-import gsw 
-import matplotlib.ticker as tkr
-import pandas as pd 
-import pickle
-
 #
 # Some globals
 #
 
-exec(open('../globals.py').read())
+exec(open('../globals.py').read()) # modules, year, pathroot
 
 #
 # Load in data
@@ -54,6 +37,13 @@ ds = xr.merge([ds_S.sel(z=55.0), p_atm], join="outer")
 ds = ds.rename({'BP_mbar_Avg': 'p_atm'})
 
 #
+# Calculate tidal and non-tidal components of seawater pressure using Doodson X0
+#
+
+pNT = IMS.DoodsonX0(ds.p)
+pT = ds.p - pNT
+
+#
 # Time series plots
 #
 
@@ -66,9 +56,17 @@ axx[0].legend(loc='lower left')
 axx[1].plot(ds.time, ds.p_atm, 'k-', linewidth=lw, label=r'Surface air pressure, $p_\mathrm{a}$')
 axx[1].set_ylabel(r'Pressure (dbar)')
 axx[1].legend(loc='lower left')
-axx[2].plot(ds.time, ds.p- ds.p_atm, 'k-', linewidth=lw, label=r'Bottom sea pressure, $p-p_\mathrm{a}$')
+axt = axx[1].twinx()
+axt.plot(ds.time, pNT, 'b-', linewidth=lw, label=r'Bottom pressure, non-tidal component, $p_\mathrm{NT}$')
+axt.set_yticklabels(axt.get_yticklabels(), color='b')
+axt.legend(loc='lower right')
+axx[2].plot(ds.time, ds.p - ds.p_atm, 'k-', linewidth=lw, label=r'Bottom sea pressure, $p-p_\mathrm{a}$')
 axx[2].set_ylabel(r'Pressure (dbar)')
 axx[2].legend(loc='lower left')
+axt = axx[2].twinx()
+axt.plot(ds.time, pT, 'b-', linewidth=lw, label=r'Bottom pressure, tidal component, $p-p_\mathrm{NT}$')
+axt.set_yticklabels(axt.get_yticklabels(), color='b')
+axt.legend(loc='lower right')
 #
 plt.xlim([ds_S.time[0], ds_S.time[-1]])
 plt.tight_layout()

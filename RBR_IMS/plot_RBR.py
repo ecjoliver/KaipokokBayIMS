@@ -2,28 +2,11 @@
    Load in RBR insrument data and make basic diagnostic plots
 '''
 
-
-from pyrsktools import RSK as RSK
-import numpy as np
-import matplotlib.pyplot as plt
-import cmocean
-import matplotlib as mpl
-mpl.interactive(True)
-import xarray as xr
-import sys
-import os
-sys.path.append(os.path.abspath('../../'))
-from functions import IMS_toolbox as IMS
-import gsw 
-import matplotlib.ticker as tkr
-import pandas as pd 
-import pickle
-
 #
 # Some globals
 #
 
-exec(open('../globals.py').read()) # year, pathroot
+exec(open('../globals.py').read()) # modules, year, pathroot
 
 #
 # Load in data
@@ -303,9 +286,9 @@ for zi in ds_S.z.data:
     plt.xlim(Smin - 0.05*(Smax - Smin), Smax + 0.05*(Smax - Smin))
     # Labels
     if np.mod(i,2) == 1:
-        plt.ylabel(r'Temperature, $\Theta$ [$^\circ$C]')
+        plt.ylabel(r'Temperature, $\Theta$ ($^\circ$C)')
     if i >= 3:
-        plt.xlabel(r'Salinity, $S_\mathrm{A}$ [g/kg]')
+        plt.xlabel(r'Salinity, $S_\mathrm{A}$ (g/kg)')
     ax.legend(loc='lower left')
     i += 1
 #
@@ -335,9 +318,9 @@ for zi in ds_S.z.data:
     plt.xlim(Smin - 0.05*(Smax - Smin), Smax + 0.05*(Smax - Smin))
     # Labels
     if np.mod(i,2) == 1:
-        plt.ylabel(r'Temperature, $\Theta$ [$^\circ$C]')
+        plt.ylabel(r'Temperature, $\Theta$ ($^\circ$C)')
     if i >= 3:
-        plt.xlabel(r'Salinity, $S_\mathrm{A}$ [g/kg]')
+        plt.xlabel(r'Salinity, $S_\mathrm{A}$ (g/kg)')
     ax.legend(loc='lower left')
     i += 1
 #

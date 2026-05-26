@@ -2,27 +2,13 @@
     Compare CTD profiles with SIMBA data
 '''
 
-import matplotlib as mpl
-mpl.interactive(True)
-from matplotlib import pyplot as plt
-import numpy as np
-from scipy import io
-import pandas as pd
-import cmocean
-import gsw
-import os
-import xarray as xr
-from datetime import datetime
-import sys
-from matplotlib.colors import BoundaryNorm, ListedColormap
-#from matplotlib import colormaps as cmaps
-fontsize=12
-
 #
 # Some globals
 #
 
-exec(open('../globals.py').read()) # year, pathroot
+exec(open('../globals.py').read()) # modules, year, pathroot
+
+fontsize=12
 
 #
 # Load in data
@@ -40,7 +26,7 @@ plt.clf()
 for i in range(len(ctd.date)):
     ax = plt.subplot(4,4,i+1)
     ds = simba.sel(time=ctd.date[i], method='nearest')
-    plt.plot(ctd.sel(date=ctd.date[i]).Temperature, -ctd.sel(date=ctd.date[i]).Depth, 'k-', label='CTD ' + str(ctd['date'][i].data)[:16])
+    plt.plot(ctd.sel(date=ctd.date[i]).Temperature, -ctd.sel(date=ctd.date[i]).Depth, 'b-', label='CTD ' + str(ctd['date'][i].data)[:16])
     plt.plot(ds.temp, ds.z, 'r-', label='SIMBA ' + str(ds.time.data)[:16])
     plt.plot([-2., 0.], ctd.Hice[i].data*np.array([-1, -1]), ':')
     plt.xlim(-2, 0)
@@ -55,9 +41,10 @@ for i in range(len(ctd.date)):
         ax.set_xticklabels([])
     plt.legend(loc='lower left', fontsize=8)
     axs = ax.twiny()
-    axs.plot(ctd.sel(date=ctd.date[i])['Absolute_Salinity'], -ctd.sel(date=ctd.date[i]).Depth, 'b-')
+    axs.plot(ctd.sel(date=ctd.date[i])['Absolute_Salinity'], -ctd.sel(date=ctd.date[i]).Depth, 'g-')
     if i+1 <= 4:
-        axs.set_xlabel(r'Salinity, $S_\mathrm{A}$ (g/kg)', color='b')
+        axs.set_xlabel(r'Salinity, $S_\mathrm{A}$ (g/kg)', color='g')
+        axs.set_xticklabels(axs.get_xticklabels(), color='g')
     else:
         axs.set_xticklabels([])
 

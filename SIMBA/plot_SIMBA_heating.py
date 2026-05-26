@@ -2,25 +2,8 @@
     Calculate thermal proxies from SIMBA heating data.
 '''
 
-import numpy as np
-from matplotlib import pyplot as plt
-import matplotlib as mpl
-mpl.interactive(True)
-import cmocean
-import pandas as pd
-import glob
-import os
-# import warnings; warnings.simplefilter('ignore')
-from matplotlib.colors import BoundaryNorm, ListedColormap
-import xarray as xr
-import pickle
-import gsw
-import matplotlib.ticker as tkr
-#plt.ion()
-
 # Some globals
-year = '2026'
-pathroot = os.path.abspath('../../')
+exec(open('../globals.py').read()) # modules, year, pathroot
 
 fontsize=12
 

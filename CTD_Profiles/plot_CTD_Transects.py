@@ -2,29 +2,13 @@
     Plot profiles from the IMS CTD timeseries
 '''
 
-import matplotlib as mpl
-mpl.interactive(True)
-from matplotlib import pyplot as plt
-import numpy as np
-from scipy import io
-import pandas as pd
-import cmocean
-import gsw
-import os
-import xarray as xr
-from datetime import datetime
-import sys
-sys.path.append(os.path.abspath('../../'))
-from functions import IMS_toolbox as IMS
-from matplotlib.colors import BoundaryNorm, ListedColormap
-#from matplotlib import colormaps as cmaps
-fontsize=12
-
 #
 # Some globals
 #
 
-exec(open('../globals.py').read()) # year[transect], pathroot
+exec(open('../globals.py').read()) # modules, year, pathroot
+
+fontsize=12
 
 # Transect definitions (metadata: field trip and site names)
 exec(open('transect_list.py').read())

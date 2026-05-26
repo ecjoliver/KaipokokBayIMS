@@ -2,25 +2,8 @@
     Plot SIMBA temperatures, heating rates and gradients.
 '''
 
-import numpy as np
-from matplotlib import pyplot as plt
-import matplotlib as mpl
-mpl.interactive(True)
-import cmocean
-import pandas as pd
-import glob
-import os
-# import warnings; warnings.simplefilter('ignore')
-from matplotlib.colors import BoundaryNorm, ListedColormap
-import xarray as xr
-import pickle
-import gsw
-import matplotlib.ticker as tkr
-#plt.ion()
-
 # Some globals
-year = '2026'
-pathroot = os.path.abspath('../../')
+exec(open('../globals.py').read()) # modules, year, pathroot
 
 fontsize=12
 
@@ -46,7 +29,7 @@ ax.plot(ds.temp[tt,:].T, ds.z,'.-')
 plt.xticks(size=fontsize)
 plt.yticks(size=fontsize)
 plt.ylabel('z [cm]',fontsize=fontsize)
-plt.xlabel('T [deg. C]', fontsize=fontsize)
+plt.xlabel(r'$T$ ($^\circ$C)', fontsize=fontsize)
 plt.grid()
 
 #
@@ -58,8 +41,8 @@ ax = plt.subplot(111)
 cm = plt.cm.bwr(np.linspace(0, 1, len(ds.time))) # create colormap for time
 ax.set_prop_cycle('color', list(cm)) # color each line in sequential order
 ax.plot(ds.temp.T, ds.z) 
-plt.ylabel('z [m]',fontsize=fontsize)
-plt.xlabel('T [deg. C]', fontsize=fontsize)
+plt.ylabel(r'$z$ (m)',fontsize=fontsize)
+plt.xlabel(r'$T$ ($^\circ$C)', fontsize=fontsize)
 plt.ylim(-2, 2)
 plt.grid()
 ax.tick_params(axis='both',labelsize=fontsize)
@@ -75,7 +58,7 @@ cbar.set_label('Time', fontsize=fontsize)
 # Change the tick labels on the colorbar - month day
 new_tick_labels = [pd.to_datetime(str(t)).strftime('%m-%d') for t in ds.time.values]
 cbar.set_ticklabels(new_tick_labels)
-n = 24  # Keep every nth label
+n = 6*24  # Keep every nth label
 [l.set_visible(False) for (i,l) in enumerate(cbar.ax.yaxis.get_ticklabels()) if i % n != 0]
 cbar.ax.tick_params(labelsize=fontsize-4)
 
@@ -93,11 +76,10 @@ im = plt.pcolormesh(ds.time, ds.z, ds.temp.T, cmap=plt.cm.turbo) #cmocean.cm.the
 plt.clim(-10, 0) # colorbar limits
 plt.ylim(-3, 1.8)
 cbar = plt.colorbar(pad=0.02)
-cbar.set_label(label='T [deg. C]', size=fontsize)
+cbar.set_label(label=r'$T$ ($^\circ$C)', size=fontsize)
 cbar.ax.tick_params(labelsize=fontsize)
 
-plt.ylabel('z [m]',fontsize=fontsize)
-plt.xlabel('Time',fontsize=fontsize)
+plt.ylabel(r'$z$ (m)',fontsize=fontsize)
 ax.tick_params(axis='both',labelsize=fontsize)
 
 # plt.savefig(pathroot + '/figures/' + year + '/SIMBA/SIMBA_temp_heatmap.png', dpi=600, bbox_inches='tight')
@@ -117,11 +99,11 @@ axx[2].set_prop_cycle('color', list(cm)) # color each line in sequential order
 
 axx[0].plot(ds_daily.temp.sel(time=year+'-02').T, ds_daily.z)
 axx[0].set_title('February')
-axx[0].set_ylabel('z [m]')
+axx[0].set_ylabel(r'$z$ (m)')
 
 axx[1].plot(ds_daily.temp.sel(time=year+'-03').T, ds_daily.z)
 axx[1].set_title('March')
-axx[1].set_xlabel('T [deg. C]')
+axx[1].set_xlabel(r'$T$ ($^\circ$C)')
 
 axx[2].plot(ds_daily.temp.sel(time=year+'-04').T, ds_daily.z)
 axx[2].set_title('April')
@@ -148,7 +130,7 @@ cbar.set_ticklabels([])
 #
 
 w=25
-plt.figure(num=1, figsize=(12,10))
+plt.figure(figsize=(12,10))
 cmap = 'turbo'
 t = ds.time.values
 # Snow-air
@@ -156,29 +138,29 @@ ax = plt.subplot2grid((4,w), (0,0), rowspan=1, colspan=w-1)
 plt.pcolormesh(ds.time, ds.z, ds.temp.T, cmap=cmap)
 plt.clim(-12, 2)
 plt.ylim(0, 1)
-plt.ylabel('z [m]')
+plt.ylabel(r'$z$ (m)')
 ax.set_xticklabels([])
 ax.set_title('0 m to +1 m',y=1,fontsize=16)
 cax = plt.subplot2grid((4,w), (0,w-1), rowspan=1, colspan=1)
-plt.colorbar(cax=cax, label='T [deg. C]')
+plt.colorbar(cax=cax, label=r'$T$ ($^\circ$C)')
 # Ice-snow
 ax = plt.subplot2grid((4,w), (1,0), rowspan=1, colspan=w-1, facecolor='white')
 plt.pcolormesh(ds.time, ds.z, ds.temp.T, cmap=cmap)
 plt.clim(-5, 0)
 plt.ylim(-1.5, 0.8)
-plt.ylabel('z [m]')
+plt.ylabel(r'$z$ (m)')
 ax.set_xticklabels([])
 cax = plt.subplot2grid((4,w), (1,w-1), rowspan=1, colspan=1)
-plt.colorbar(cax=cax, label='T [deg. C]')
+plt.colorbar(cax=cax, label=r'$T$ ($^\circ$C)')
 ax.set_title('-1.5 m to +0.8 m',y=1,fontsize=16)
 # Ice-ocean
 ax = plt.subplot2grid((4,w), (2,0), rowspan=2, colspan=w-1, facecolor='white')
 plt.pcolormesh(ds.time, ds.z, ds.temp.T, cmap=cmap)
 plt.clim(-2, 0)
 plt.ylim(-2.5, -0.5)
-plt.ylabel('z [m]')
+plt.ylabel(r'$z$ (m)')
 cax = plt.subplot2grid((4,w), (2,w-1), rowspan=2, colspan=1)
-plt.colorbar(cax=cax, label='T [deg. C]')
+plt.colorbar(cax=cax, label=r'$T$ ($^\circ$C)')
 ax.set_title('-2.5 m to -0.50 m',y=1,fontsize=16)
 #
 plt.tight_layout()

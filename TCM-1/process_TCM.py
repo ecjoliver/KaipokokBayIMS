@@ -2,21 +2,9 @@
     Process TCM data and save NetCDF files
 '''
 
-import numpy as np 
-import pandas as pd 
-import xarray as xr 
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-mpl.interactive(True)
-import os
-import sys
-sys.path.append(os.path.abspath('../../'))
-from functions import IMS_toolbox as IMS
-
 # Some globals
 
-pathroot = os.path.abspath('../../')
-year = '2026'
+exec(open('../globals.py').read()) # modules, year, pathroot
 
 # Load the TCM data and save it into one xarray data array
 
