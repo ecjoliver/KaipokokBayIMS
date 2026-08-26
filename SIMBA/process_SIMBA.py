@@ -7,8 +7,8 @@
 exec(open('../globals.py').read()) # modules, year, pathroot
 
 fontsize = 14
-dt = {'2024': 1, '2025': 1, '2026': 6} # sample rate in hours
-time_offset = {'2024': np.timedelta64(0, 'h'), '2025': np.timedelta64(0, 'h'), '2026': np.timedelta64(94368, 'h')} # Offset in time index, only needed for 2026 data which was offset for some reason
+#dt = {'2024': 1, '2025': 1, '2026': 6} # sample rate in hours
+time_offset = {'2024': np.timedelta64(0, 'h'), '2025': np.timedelta64(-3, 'h'), '2026': np.timedelta64(94368, 'h')} # Offset in time index, only needed for 2026 data which was offset for some reason
 
 # Position of ice surface along SIMBA thermistor string
 # 2024: node 89 is the ice surface. It gave a z of 176, hence the offset 

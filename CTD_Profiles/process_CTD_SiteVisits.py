@@ -14,7 +14,10 @@ header = '/home/eoliver/Dropbox/Nunatsiavut_Futures/WP2_Data_Repository/CTD/'
 
 # Time series details
 community = 'Postville'
-siteList = [['2026_02_02', 'IMS'], ['2026_02_09', 'IMS'], ['2026_02_18', 'IMS'], ['2026_02_24', 'IMS'], ['2026_03_02', 'IMS'], ['2026_03_12', 'IMS'], ['2026_03_19', 'IMS'], ['2026_03_26', 'IMS'], ['2026_04_01', 'IMS'], ['2026_04_10', 'IMS'], ['2026_04_16', 'IMS'], ['2026_04_17', 'IMS'], ['2026_04_18', 'IMS'], ['2026_04_23', 'IMS'], ['2026_04_29', 'IMS'], ['2026_05_05', 'IMS']]
+siteList = {}
+siteList['2024'] = [['2024_01_22', 'IMS'], ['2024_01_31', 'IMS'], ['2024_02_07', 'IMS'], ['2024_02_13', 'IMS'], ['2024_02_27', 'IMS'], ['2024_03_05', 'IMS'], ['2024_03_12', 'IMS'], ['2024_03_19', 'IMS'], ['2024_03_26', 'IMS'], ['2024_04_02', 'IMS'], ['2024_04_09', 'IMS'], ['2024_04_15', 'IMS']]
+siteList['2025'] = [['2025_02_10', 'IMS'], ['2025_02_17', 'IMS'], ['2025_02_24', 'IMS'], ['2025_03_03', 'IMS'], ['2025_03_10', 'IMS'], ['2025_03_18', 'IMS'], ['2025_03_24', 'IMS'], ['2025_04_03', 'IMS'], ['2025_04_09', 'IMS'], ['2025_04_22', 'IMS'], ['2025_04_29', 'IMS'], ['2025_05_05', 'IMS'], ['2025_06_27', 'IMS'], ['2025_07_24', 'IMS'], ['2025_08_20', 'IMS'], ['2025_10_14', 'IMS']]
+siteList['2026'] = [['2026_02_02', 'IMS'], ['2026_02_09', 'IMS'], ['2026_02_18', 'IMS'], ['2026_02_24', 'IMS'], ['2026_03_02', 'IMS'], ['2026_03_12', 'IMS'], ['2026_03_19', 'IMS'], ['2026_03_26', 'IMS'], ['2026_04_01', 'IMS'], ['2026_04_10', 'IMS'], ['2026_04_16', 'IMS'], ['2026_04_17', 'IMS'], ['2026_04_18', 'IMS'], ['2026_04_23', 'IMS'], ['2026_04_29', 'IMS'], ['2026_05_05', 'IMS'], ['2026_05_27', 'IMS'], ['2026_06_09', 'IMS'], ['2026_07_09', 'IMS'], ['2026_07_30', 'IMS']]
 dt = 0.5
 
 #
@@ -22,30 +25,30 @@ dt = 0.5
 #
 
 # lon/lat, ice/snow, file locations, site names, etc
-Ns = len(siteList)
+Ns = len(siteList[year])
 date = {}
 ice = {}
 snow = {}
 fileCast = {}
 for i in range(Ns):
-    ymd = siteList[i][0] # YYYY_MM_DD
-    site = siteList[i][1] # Site name
-    CTDmetaData = pd.read_excel(header + 'CTD_' + str(ymd[:4]) + '.xlsx')
+    ymd = siteList[year][i][0] # YYYY_MM_DD
+    site = siteList[year][i][1] # Site name
+    CTDmetaData = pd.read_excel(header + 'field_sheets/FieldSheets_' + str(ymd[:4]) + '.xlsx')
     ift = np.where(CTDmetaData['Field Trip ID'] == community + '_' + ymd.replace('_', ''))[0][0] # field trip
     ns = int(CTDmetaData['Number of sites visited'][ift]) # times visited that trip
     js = np.where(CTDmetaData['Site name'][ift:ift+ns] == site)[0][0] + ift
-    date[ymd] = datetime.toordinal(CTDmetaData['Date'][js].date()) + (CTDmetaData['Time (must be prior to taking the measurement)'][js].hour+(CTDmetaData['Time (must be prior to taking the measurement)'][js].minute+CTDmetaData['Time (must be prior to taking the measurement)'][js].second/60)/60)/24
+    date[ymd] = CTDmetaData['Date'][js].date().toordinal() + (CTDmetaData['Time (must be prior to taking the measurement)'][js].hour+(CTDmetaData['Time (must be prior to taking the measurement)'][js].minute+CTDmetaData['Time (must be prior to taking the measurement)'][js].second/60)/60)/24
     ice[ymd] = 0.01*CTDmetaData['Ice thickness (cm)'][js] # cm -> m
     snow[ymd] = 0.01*CTDmetaData['Snow thickness (cm)'][js] # cm -> m
-    fileCast[ymd] = header + community + '/' + ymd + '/' + community + '_' + ymd.replace('_', '') + '_' + site.replace(' ','') + '_' + CTDmetaData['Preferred cast'][js].replace(' ','') + '.csv'
+    fileCast[ymd] = header + 'data/profiles/QC/' + community + '/' + ymd + '/' + community + '_' + ymd.replace('_', '') + '_' + site.replace(' ','') + '_' + CTDmetaData['Preferred cast'][js].replace(' ','') + '.csv'
 
 times = list(date.keys())
 
-# # Load individual casts and store into one Dataset
-ctd = pd.read_csv(fileCast[times[0]]).to_xarray() # Index 0 which files will be appended to
+# Load individual casts and store into one Dataset
+ctd = pd.read_csv(fileCast[times[0]], skiprows=30).to_xarray() # Index 0 which files will be appended to
 # Append all files into one pandas dataframe
 for i in range(1, len(times)):
-    ds = pd.read_csv(fileCast[times[i]]).to_xarray()
+    ds = pd.read_csv(fileCast[times[i]], skiprows=30).to_xarray()
     ctd = xr.concat([ctd, ds],'date')
 
 dates =  pd.to_datetime(times,format='%Y_%m_%d')

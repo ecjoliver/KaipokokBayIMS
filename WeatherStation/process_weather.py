@@ -12,8 +12,12 @@ Create the weather station netcdf file and plot the summary onto one big subplot
 
 # Some globals
 exec(open('../globals.py').read()) # modules, year, pathroot
-time_start = '2026-02-06T00:00.000000000' # Deployment YYYY-MM-DDTHH:MM.MMMM (UTC)
-time_end = '2026-04-21T14:30.000000000' # Recovery YYYY-MM-DDTHH:MM.MMMM (UTC)
+time_start = {}
+time_end = {}
+time_start['2025'] = '2025-02-19T14:00.000000000' # Deployment YYYY-MM-DDTHH:MM.MMMM (UTC)
+time_end['2025'] = '2025-04-11T00:00.000000000' # Recovery YYYY-MM-DDTHH:MM.MMMM (UTC)
+time_start['2026'] = '2026-02-06T00:00.000000000' # Deployment YYYY-MM-DDTHH:MM.MMMM (UTC)
+time_end['2026'] = '2026-04-21T14:30.000000000' # Recovery YYYY-MM-DDTHH:MM.MMMM (UTC)
 
 #
 # A. Process weather station SD card data to netcdf
@@ -47,7 +51,7 @@ ds['time'] = pd.DatetimeIndex(ds['time'].values) # convert to datetime
 ds = ds.astype(float) # conversion makes array into strings, so convert values to float
 
 # Reduce to deployment time period
-ds = ds.sel(time=slice(time_start, time_end))
+ds = ds.sel(time=slice(time_start[year], time_end[year]))
 
 # Save as NetCDF
 nc = ds.to_netcdf(pathroot + '/data/' + year + '/WeatherStation/WeatherVars_SD.nc') # Save to netCDF file
@@ -83,7 +87,7 @@ RH = 100*(np.exp((17.625*TD)/(243.04+TD))/np.exp((17.625*Ta)/(243.04+Ta))) # Rel
 ds = ds.assign({"Humidity":RH}) # Add humidity to the dataset
 
 # Reduce to deployment time period
-ds = ds.sel(time=slice(time_start, time_end))
+ds = ds.sel(time=slice(time_start[year], time_end[year]))
 
 # Save as NetCDF
 nc = ds.to_netcdf('WeatherVars_CR1000X.nc') # Save to netCDF file

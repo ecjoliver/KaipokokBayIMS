@@ -14,7 +14,7 @@ header = '/home/eoliver/Dropbox/Nunatsiavut_Futures/WP2_Data_Repository/CTD/'
 
 # Transect definitions (metadata: field trip and site names)
 exec(open('transect_list.py').read())
-transect = 'Kaipokok Bay (2026 Apr)' # Choose which one to plot here
+transect = 'Kaipokok Bay (2026 Jun)' # Choose which one to plot here
 
 #
 # Load in data
@@ -22,7 +22,7 @@ transect = 'Kaipokok Bay (2026 Apr)' # Choose which one to plot here
 
 # lon/lat, ice/snow, file locatins, site names, etc
 Ns = len(siteList[transect])
-CTDmetaData = pd.read_excel(header + 'CTD_' + str(year[transect]) + '.xlsx')
+CTDmetaData = pd.read_excel(header + 'field_sheets/FieldSheets_' + str(year[transect]) + '.xlsx')
 lon = {}
 lat = {}
 ice = {}
@@ -38,15 +38,15 @@ for i in range(Ns):
     lat[site] = CTDmetaData['Latitude'][js] # degrees N
     ice[site] = 0.01*CTDmetaData['Ice thickness (cm)'][js] # cm -> m
     snow[site] = 0.01*CTDmetaData['Snow thickness (cm)'][js] # cm -> m
-    fileCast[site] = header + community[transect] + '/' + ymd + '/' + community[transect] + '_' + ymd.replace('_', '') + '_' + site.replace(' ','') + '_' + CTDmetaData['Preferred cast'][js].replace(' ','') + '.csv'
+    fileCast[site] = header + 'data/profiles/QC/' + community[transect] + '/' + ymd + '/' + community[transect] + '_' + ymd.replace('_', '') + '_' + site.replace(' ','') + '_' + CTDmetaData['Preferred cast'][js].replace(' ','') + '.csv'
 
 sites = list(lon.keys())
 
 # Load individual casts and store into one Dataset
-ctd = pd.read_csv(fileCast[sites[0]]).to_xarray() # Index 0 which files will be appended to
+ctd = pd.read_csv(fileCast[sites[0]], skiprows=30).to_xarray() # Index 0 which files will be appended to
 # Append all files into one pandas dataframe
 for i in range(1, len(sites)):
-    ds = pd.read_csv(fileCast[sites[i]]).to_xarray()
+    ds = pd.read_csv(fileCast[sites[i]], skiprows=30).to_xarray()
     ctd = xr.concat([ctd, ds],'site')
 
 # Assign site names to coordinate

@@ -12,7 +12,7 @@ fontsize=12
 
 # Transect definitions (metadata: field trip and site names)
 exec(open('transect_list.py').read())
-transect = 'Kaipokok Bay (2026 Apr)' # Choose which one to plot here
+transect = 'Kaipokok Bay (2025 Oct)' # Choose which one to plot here
 
 #
 # Load in data
@@ -59,7 +59,7 @@ n = 1  # Keep every nth label
 [l.set_visible(False) for (i,l) in enumerate(cbar.ax.yaxis.get_ticklabels()) if i % n != 0]
 cbar.ax.tick_params(labelsize=fontsize-2)
 
-# plt.savefig('../../figures/' + year[transect] + '/CTD_Profiles/CTD_IMS_Transect_' + transect.replace(' ','').replace('(','').replace(')','') + '_Profiles_Top10m.png', dpi=600, bbox_inches='tight')
+plt.savefig('../../figures/' + year[transect] + '/CTD_Profiles/CTD_IMS_Transect_' + transect.replace(' ','').replace('(','').replace(')','') + '_Profiles_Top10m.png', dpi=600, bbox_inches='tight')
 
 # Profiles (full depth)
 cm = plt.cm.turbo(np.linspace(0, 1, len(ctd.site))) # create colormap for time
@@ -96,7 +96,7 @@ n = 1  # Keep every nth label
 [l.set_visible(False) for (i,l) in enumerate(cbar.ax.yaxis.get_ticklabels()) if i % n != 0]
 cbar.ax.tick_params(labelsize=fontsize-2)
 
-# plt.savefig('../../figures/' + year[transect] + '/CTD_Profiles/CTD_IMS_Transect_' + transect.replace(' ','').replace('(','').replace(')','') + '_Profiles_FullDepth.png', dpi=600, bbox_inches='tight')
+plt.savefig('../../figures/' + year[transect] + '/CTD_Profiles/CTD_IMS_Transect_' + transect.replace(' ','').replace('(','').replace(')','') + '_Profiles_FullDepth.png', dpi=600, bbox_inches='tight')
 
 #
 # TS diagrams
@@ -204,7 +204,7 @@ plt.xlim([0,34])
 #
 plt.tight_layout()
 
-# plt.savefig('../../figures/' + year[transect] + '/CTD_Profiles/CTD_IMS_Transect_' + transect.replace(' ','').replace('(','').replace(')','') + '_TS.png', dpi=600, bbox_inches='tight')
+plt.savefig('../../figures/' + year[transect] + '/CTD_Profiles/CTD_IMS_Transect_' + transect.replace(' ','').replace('(','').replace(')','') + '_TS.png', dpi=600, bbox_inches='tight')
 
 #
 # Interpolated CTD transect in (lon,z) space
@@ -334,7 +334,7 @@ ax.spines['top'].set_visible(False)
 cax = plt.subplot2grid((7,w), (5,w-1), rowspan=2, colspan=1)
 plt.colorbar(cax=cax, label='Density, $\\rho_\\theta$ (kg/m$^3$)')
 
-# plt.savefig('../../figures/' + year[transect] + '/CTD_Profiles/CTD_IMS_Transect_' + transect.replace(' ','').replace('(','').replace(')','') + '_Interpolated_TempSaltIce.png', dpi=600, bbox_inches='tight')
+plt.savefig('../../figures/' + year[transect] + '/CTD_Profiles/CTD_IMS_Transect_' + transect.replace(' ','').replace('(','').replace(')','') + '_Interpolated_TempSaltIce.png', dpi=600, bbox_inches='tight')
 
 # Higher order physical properties (N2, speed of sound, T-T_fr)
 plt.figure(figsize=(16,10))
@@ -426,7 +426,7 @@ ax.spines['top'].set_visible(False)
 cax = plt.subplot2grid((7,w), (5,w-1), rowspan=2, colspan=1)
 plt.colorbar(cax=cax, label=r'$\Theta-\Theta_\mathrm{fr}$ ($^\circ$C)')
 
-# plt.savefig('../../figures/' + year[transect] + '/CTD_Profiles/CTD_IMS_Transect_' + transect.replace(' ','').replace('(','').replace(')','') + '_Interpolated_HigherOrderPO.png', dpi=600, bbox_inches='tight')
+plt.savefig('../../figures/' + year[transect] + '/CTD_Profiles/CTD_IMS_Transect_' + transect.replace(' ','').replace('(','').replace(')','') + '_Interpolated_HigherOrderPO.png', dpi=600, bbox_inches='tight')
 
 # BGC Variables
 plt.figure(figsize=(18,10))
@@ -533,6 +533,6 @@ ax.spines['top'].set_visible(False)
 cax = plt.subplot2grid((8,w), (6,w-1), rowspan=2, colspan=1)
 plt.colorbar(cax=cax, label='Oxygen Satuation (%)')
 
-# plt.savefig('../../figures/' + year[transect] + '/CTD_Profiles/CTD_IMS_Transect_' + transect.replace(' ','').replace('(','').replace(')','') + '_Interpolated_BGC.png', dpi=600, bbox_inches='tight')
+plt.savefig('../../figures/' + year[transect] + '/CTD_Profiles/CTD_IMS_Transect_' + transect.replace(' ','').replace('(','').replace(')','') + '_Interpolated_BGC.png', dpi=600, bbox_inches='tight')
 
 

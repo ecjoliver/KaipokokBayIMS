@@ -4,6 +4,7 @@
 
 # Some globals
 exec(open('../globals.py').read()) # modules, year, pathroot
+dt = {'2024': 6, '2025': 6, '2026': 1} # sample rate in hours
 
 fontsize=12
 
@@ -58,7 +59,7 @@ cbar.set_label('Time', fontsize=fontsize)
 # Change the tick labels on the colorbar - month day
 new_tick_labels = [pd.to_datetime(str(t)).strftime('%m-%d') for t in ds.time.values]
 cbar.set_ticklabels(new_tick_labels)
-n = 6*24  # Keep every nth label
+n = 6*24/dt[year]  # Keep every nth label
 [l.set_visible(False) for (i,l) in enumerate(cbar.ax.yaxis.get_ticklabels()) if i % n != 0]
 cbar.ax.tick_params(labelsize=fontsize-4)
 

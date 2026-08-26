@@ -9,13 +9,14 @@
 exec(open('../globals.py').read()) # modules, year, pathroot
 
 #
-# Load in data
+# Load in data (not all files will exist for all years)
 #
 
 ds_T = xr.open_dataset(pathroot + '/data/' + year + '/RBR_IMS/RBR_temperature.nc')
 ds_S = xr.open_dataset(pathroot + '/data/' + year + '/RBR_IMS/RBR_salinity_density.nc')
-ds_BGC = xr.open_dataset(pathroot + '/data/' + year + '/RBR_IMS/RBR_BGC.nc')
-ds_PAR = xr.open_dataset(pathroot + '/data/' + year + '/RBR_IMS/RBR_PAR.nc')
+if year == '2026':
+    ds_BGC = xr.open_dataset(pathroot + '/data/' + year + '/RBR_IMS/RBR_BGC.nc')
+    ds_PAR = xr.open_dataset(pathroot + '/data/' + year + '/RBR_IMS/RBR_PAR.nc')
 
 #
 # Time series plots
@@ -58,7 +59,7 @@ axx[0].legend(loc='upper left')
 for zi in ds_BGC.z.data:
     axx[1].plot(ds_BGC.time, ds_BGC.chlorophyll.sel(z=zi), color=cols[zi], alpha=0.5, zorder=2)
     axx[1].plot(ds_BGC.time, IMS.DoodsonX0(ds_BGC.chlorophyll.sel(z=zi)), color=cols[zi], linewidth=lw, zorder=5, label=str(zi)+' m')
-    axx[1].set_ylabel(r'Chlorophyll ($\mu$mol/L)')
+    axx[1].set_ylabel(r'Chlorophyll ($\mu$g/L)')
 axx[1].legend(loc='upper left')
 # Backscatter
 for zi in ds_BGC.z.data:

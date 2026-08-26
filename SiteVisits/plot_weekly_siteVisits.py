@@ -30,3 +30,16 @@ plt.ylabel(r'$h$ (m)')
 
 # plt.savefig('../../figures/' + year + '/SiteVisits/SiteVisits_Weekly_IceSnowWater.png', dpi=600, bbox_inches='tight')
 
+# Snow density
+plt.figure(figsize=(15,5),facecolor='white')
+plt.clf()
+plt.plot(ds.time, ds.rhos_mean, '-o', color='0.25', zorder=13, label='Snow density (mean)')
+plt.fill_between(ds.time, ds.rhos_mean - ds.rhos_sd, ds.rhos_mean + ds.rhos_sd, color='0.75', zorder=11, label='Snow density (std. dev.)')
+plt.plot(ds.time, ds.rhos_1, '.', color='0.5', zorder=15, label='Snow density (individual measurements)')
+plt.plot(ds.time, ds.rhos_2, '.', color='0.5', zorder=15)
+plt.plot(ds.time, ds.rhos_3, '.', color='0.5', zorder=15)
+plt.legend()
+plt.ylabel(r'$\rho_\mathrm{s}$ (kg/m$^3$)')
+
+# plt.savefig('../../figures/' + year + '/SiteVisits/SiteVisits_Weekly_SnowDensity.png', dpi=600, bbox_inches='tight')
+

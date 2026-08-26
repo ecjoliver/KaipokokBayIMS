@@ -9,6 +9,11 @@ exec(open('../globals.py').read()) # modules, year, pathroot
 xls = pd.ExcelFile(pathroot + '/data/' + year + '/IceCores/IceSalinity_' + year + '.xlsx')
 sheets = xls.sheet_names
 
+# Sites visited that year, for plotting
+sites_toPlot = {}
+sites_toPlot['2025'] = ['Beaver River Point', 'IMS', 'Cape Point']
+sites_toPlot['2026'] = ['Beaver River Point', 'IMS', 'Jackos Point']
+
 # Loop over each sheet (= site + date)
 site0 = {}
 date_collected0 = {}
@@ -122,7 +127,7 @@ cols = ['k', 'b', 'g']
 plt.figure(figsize=(7,15), facecolor='w')
 plt.clf()
 cnt = 1
-for site in S.keys():
+for site in sites_toPlot[year]:
     for date in S[site].keys():
         plt.subplot(3,2,cnt)
         for ic in range(3):
@@ -144,7 +149,7 @@ plt.savefig(pathroot + '/figures/' + year + '/IceCores/IceCores_SalinityYSI.png'
 plt.figure(figsize=(7,15), facecolor='w')
 plt.clf()
 cnt = 1
-for site in S.keys():
+for site in sites_toPlot[year]:
     for date in S[site].keys():
         plt.subplot(3,2,cnt)
         for ic in range(3):
@@ -165,7 +170,7 @@ plt.savefig(pathroot + '/figures/' + year + '/IceCores/IceCores_Temperature.png'
 plt.figure(figsize=(7,15), facecolor='w')
 plt.clf()
 cnt = 1
-for site in S.keys():
+for site in sites_toPlot[year]:
     for date in S[site].keys():
         plt.subplot(3,2,cnt)
         for ic in range(3):
@@ -186,7 +191,7 @@ plt.savefig(pathroot + '/figures/' + year + '/IceCores/IceCores_Conductivity.png
 plt.figure(figsize=(7,15), facecolor='w')
 plt.clf()
 cnt = 1
-for site in S.keys():
+for site in sites_toPlot[year]:
     for date in S[site].keys():
         plt.subplot(3,2,cnt)
         for ic in range(3):
@@ -208,7 +213,7 @@ plt.savefig(pathroot + '/figures/' + year + '/IceCores/IceCores_SalinityPractica
 plt.figure(figsize=(7,15), facecolor='w')
 plt.clf()
 cnt = 1
-for site in S.keys():
+for site in sites_toPlot[year]:
     for date in S[site].keys():
         plt.subplot(3,2,cnt)
         for ic in range(3):
@@ -230,7 +235,7 @@ plt.savefig(pathroot + '/figures/' + year + '/IceCores/IceCores_SalinityAbsolute
 plt.figure(figsize=(7,15), facecolor='w')
 plt.clf()
 cnt = 1
-for site in S.keys():
+for site in sites_toPlot[year]:
     for date in S[site].keys():
         plt.subplot(3,2,cnt)
         for ic in range(3):
@@ -250,7 +255,7 @@ plt.savefig(pathroot + '/figures/' + year + '/IceCores/IceCores_SalinityPractica
 plt.figure(figsize=(7,15), facecolor='w')
 plt.clf()
 cnt = 1     
-for site in S.keys():
+for site in sites_toPlot[year]:
     for date in S[site].keys():
         plt.subplot(3,2,cnt)
         for ic in range(3):

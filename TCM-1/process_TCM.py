@@ -15,16 +15,19 @@ if year == '2024':
     df_2m = pd.read_csv('TCM-1/data/2024/2m/2012078_Postville_2m_(0)_Current.csv',index_col=False,parse_dates=['ISO 8601 Time'])
 # 2025
 elif year == '2025':
-    df_1m = pd.read_csv('TCM-1/data/2025/1m/2112070_Postville_1m_(0)_Current.csv',index_col=False,parse_dates=['ISO 8601 Time'])
-    df_1_5m = pd.read_csv('TCM-1/data/2025/1-5m/2409063_Postville_1-5m_(0)_Current.csv',index_col=False,parse_dates=['ISO 8601 Time'])
-    df_2m = pd.read_csv('TCM-1/data/2025/2m/2409062_Postville_2m_(0)_Current.csv',index_col=False,parse_dates=['ISO 8601 Time'])
+    time_start = '2025-02-12T15:24:00.000000' # Deployment YYYY-MM-DDTHH:MM:SS.SSSSSS (UTC)
+    time_end = '2025-04-09T19:40:00.000000' # Recovery YYYY-MM-DDTHH:MM:SS.SSSSSS (UTC)
+    # time_end = '2025-04-12T12:55:30.000000' # Recovery YYYY-MM-DDTHH:MM:SS.SSSSSS (UTC) # 1.0 m current has this much data!
+    df['1.0'] = pd.read_csv(pathroot + '/data/' + year + '/TCM-1/2112070_Postville_1m_(0)_Current.csv',index_col=False,parse_dates=['ISO 8601 Time'])
+    df['1.5'] = pd.read_csv(pathroot + '/data/' + year + '/TCM-1/2409063_Postville_1-5m_(0)_Current.csv',index_col=False,parse_dates=['ISO 8601 Time'])
+    df['2.0'] = pd.read_csv(pathroot + '/data/' + year + '/TCM-1/2409062_Postville_2m_(0)_Current.csv',index_col=False,parse_dates=['ISO 8601 Time'])
 # 2026
 elif year == '2026':
     time_start = '2026-02-03T18:22:00.000000' # Deployment YYYY-MM-DDTHH:MM:SS.SSSSSS (UTC)
     time_end = '2026-04-20T18:46:00.000000' # Recovery YYYY-MM-DDTHH:MM:SS.SSSSSS (UTC)
     df['1.5'] = pd.read_csv(pathroot + '/data/' + year + '/TCM-1/2409063_IMS_1-5m_(0)_Current.csv',index_col=False,parse_dates=['ISO 8601 Time'])
     df['2.0'] = pd.read_csv(pathroot + '/data/' + year + '/TCM-1/2409062_IMS_2-0m_(0)_Current.csv',index_col=False,parse_dates=['ISO 8601 Time'])
-    z = df.keys()
+z = df.keys()
 
 # Create xarray
 for zi in z:

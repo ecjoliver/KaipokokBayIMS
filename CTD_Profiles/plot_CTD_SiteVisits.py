@@ -133,6 +133,7 @@ cmap = mpl.cm.get_cmap('turbo', n_lines)
 tc = np.arange(1., len(ctd.date)+1)
 dummie_cax = plt.scatter(tc, tc, c=tc, cmap=cmap)
 cbar = plt.colorbar()
+cbar.ax.set_yticks(tc)
 cbar.ax.set_yticklabels(ctd['date'].dt.strftime("%m-%d").values) # IMS timeseries
 plt.cla() # Clear axis
 cs = plt.contour(Sg, Tg, sigma_theta, colors='lightgrey', zorder=1)

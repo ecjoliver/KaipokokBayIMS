@@ -47,7 +47,12 @@ elif year == '2026':
             time_end[ins] = '2026-04-20T20:50:00' # Recovery YYYY-MM-DDTHH:MM:SS (UTC)
         else:
             time_end[ins] = '2026-04-21T14:14:00' # Recovery of non-bottom CTD instruments, ~+1 day...
-        
+
+# Code to check deployment times
+for ins in ['CTD_bottom', 'CTD_sfc', 'TD_2', 'TD_4', 'TD_38', 'CTD_BGC_1', 'CTD_BGC_5']:
+    rbr = RSK(rsk[ins]); rbr.open(); rbr.readdata();
+    plt.plot(rbr.data['timestamp'], rbr.data['pressure'], label=ins)
+plt.legend()
 
 # load data from files
 rbr = {}
@@ -61,7 +66,7 @@ for ins in rsk.keys():
 # I think the below needs to be year-specific!
 
 # Temperature
-# NOTE: Reorder Tstring nodes. Fitst node starts at the bottom of the string (AKA #12 labeled on string). 
+# NOTE: Reorder Tstring nodes. First node starts at the bottom of the string (AKA #12 labeled on string). 
 # TS_correct_order = [1,8,9,2,7,10,3,6,11,4,5,12] # node number, bottom to top
 # Note variable name (temperaturei) is such that i = node - 1
 # TS_depth_vals = np.arange(3.4,34,2.77)*-1 # Top node at 3.4m, each node spaced 2.77m apart

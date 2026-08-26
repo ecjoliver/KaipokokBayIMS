@@ -111,9 +111,7 @@ axx[6].tick_params(axis='x', rotation=30)
 #plt.xlim(['2024-01-26','2024-04-12'])
 plt.xlim([ds.time[0], ds.time[-1]])
 
-#
 # plt.savefig('../../figures/' + year + '/WeatherStation/Weather_StackedTimeSeries.png', dpi=600, bbox_inches='tight')
-#
 
 #
 # Wind rose
@@ -130,7 +128,5 @@ ax.bar(wind_dir, wind_speed, bins=np.arange(0,15,2), normed=True, opening=0.8, e
 
 ax.set_legend(title='Wind speed (m/s)', loc='lower right')
 
-#
 # plt.savefig('../../figures/' + year + '/WeatherStation/WindRose.png', dpi=600, bbox_inches='tight')
-#
 
