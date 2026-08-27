@@ -643,8 +643,8 @@ def interpSectionStitch(sites, ctd, coord, field, dx):
     d2 = -999
 
     for i,site in enumerate(sites):
-        x1 = min(coord[i], x1)
-        x2 = max(coord[i], x2)
+        x1 = min(coord[site], x1)
+        x2 = max(coord[site], x2)
         d2 = max(ctd.sel(site=site)['Depth'].max().values, d2)
 
     # Interpolation coordinates
@@ -657,7 +657,7 @@ def interpSectionStitch(sites, ctd, coord, field, dx):
     # Build up interpolated section
     for i in range(Nsites - 1):
         # Interpolate over a grid
-        x_sec0 = np.arange(coord[i], coord[i+1], dx)
+        x_sec0 = np.arange(coord[sites[i]], coord[sites[i+1]], dx)
         xx_sec0, ddepth_sec0 = np.meshgrid(x_sec0, depth_sec)
         field_sec0, _, _ = interpSection(x_sec0, depth_sec, sites[i:i+1+1], ctd, coord, field)
 
@@ -686,7 +686,7 @@ def interpSection(x_sec, depth_sec, sites, ctd, coord, field):
         valid = ~np.isnan(site_data[field].values)
         if valid.sum() == 0:
             continue # skip if all values are nans
-        x_sparse = np.append(x_sparse, coord[ctd.site == site][0]*(site_data['Depth'][valid]*0+1))
+        x_sparse = np.append(x_sparse, coord[site]*(site_data['Depth'][valid]*0+1))
         depth_sparse = np.append(depth_sparse, site_data['Depth'][valid])
         field_sparse = np.append(field_sparse, site_data[field][valid])
 

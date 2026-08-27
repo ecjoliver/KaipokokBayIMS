@@ -14,7 +14,7 @@ header = '/home/eoliver/Dropbox/Nunatsiavut_Futures/WP2_Data_Repository/CTD/'
 
 # Transect definitions (metadata: field trip and site names)
 exec(open('transect_list.py').read())
-transect = 'Kaipokok Bay (2026 Jun)' # Choose which one to plot here
+transect = 'Kaipokok Bay (2023 Apr)' # Choose which one to plot here
 
 #
 # Load in data

@@ -54,3 +54,42 @@ plt.xlim([ds_T.time[0], ds_T.time[-1]])
 plt.tight_layout()
 
 # plt.savefig('../../figures/' + year + '/RBR_IMS/RBR_Timeseries_CompareSIMBA.png', dpi=600, bbox_inches='tight')
+
+# 2024 plot
+
+plt.figure(figsize=(11,9), facecolor='w')
+# z = -1.88 m
+zi = 1.88
+plt.subplot(3,1,1)
+plt.plot(ds_T.time, ds_T.T.sel(z=zi), 'k-', alpha=0.5)
+plt.plot(ds_SIMBA.time, ds_SIMBA.temp.sel(z=-zi), 'k-', alpha=0.5)
+plt.plot(ds_T.time, IMS.DoodsonX0(ds_T.T.sel(z=zi)), 'b-', label='RBR (z=-' + str(zi) + ' m)')
+plt.plot(ds_SIMBA.time, IMS.DoodsonX0(ds_SIMBA.temp.sel(z=-zi)), 'r-', label='SIMBA (z=-' + str(zi) + ' m)')
+plt.ylabel(r'Temperature, $T$ ($^\circ$C)')
+plt.legend(loc='upper left')
+plt.xlim([ds_T.time[0], ds_T.time[-1]])
+# z = -2.38 m
+zi = 2.38
+plt.subplot(3,1,2)
+plt.plot(ds_T.time, ds_T.T.sel(z=zi), 'k-', alpha=0.5)
+plt.plot(ds_SIMBA.time, ds_SIMBA.temp.sel(z=-zi), 'k-', alpha=0.5)
+plt.plot(ds_T.time, IMS.DoodsonX0(ds_T.T.sel(z=zi)), 'b-', label='RBR (z=-' + str(zi) + ' m)')
+plt.plot(ds_SIMBA.time, IMS.DoodsonX0(ds_SIMBA.temp.sel(z=-zi)), 'r-', label='SIMBA (z=-' + str(zi) + ' m)')
+plt.ylabel(r'Temperature, $T$ ($^\circ$C)')
+plt.legend(loc='upper left')
+plt.xlim([ds_T.time[0], ds_T.time[-1]])
+# z = -2.89
+zi = 2.89
+plt.subplot(3,1,3)
+plt.plot(ds_T.time, ds_T.T.sel(z=zi), 'k-', alpha=0.5)
+plt.plot(ds_SIMBA.time, ds_SIMBA.temp.sel(z=-np.round(100*zi/2)*2/100), 'k-', alpha=0.5)
+plt.plot(ds_T.time, IMS.DoodsonX0(ds_T.T.sel(z=zi)), 'b-', label='RBR (z=-' + str(zi) + ' m)')
+plt.plot(ds_SIMBA.time, IMS.DoodsonX0(ds_SIMBA.temp.sel(z=-np.round(100*zi/2)*2/100)), 'r-', label='SIMBA (z=-' + str(zi) + ' m)')
+plt.ylabel(r'Temperature, $T$ ($^\circ$C)')
+plt.legend(loc='upper left')
+plt.xlim([ds_T.time[0], ds_T.time[-1]])
+#
+plt.tight_layout()
+
+# plt.savefig('../../figures/' + year + '/RBR_IMS/RBR_Timeseries_CompareSIMBA.png', dpi=600, bbox_inches='tight')
+

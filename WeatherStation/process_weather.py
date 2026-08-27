@@ -6,14 +6,12 @@ Create the weather station netcdf file and plot the summary onto one big subplot
 # Some globals
 #
 
-# year = '2024'
-# Start on Jan. 26, end April 15 - consistent with other datasets
-# ds = ds.sel(time=slice("2024-01-26","2024-04-15")) 
-
 # Some globals
 exec(open('../globals.py').read()) # modules, year, pathroot
 time_start = {}
 time_end = {}
+time_start['2024'] = '2024-01-25T16:00.000000000' # Deployment YYYY-MM-DDTHH:MM.MMMM (UTC)
+time_end['2024'] = '2024-04-17T12:00.000000000' # Recovery YYYY-MM-DDTHH:MM.MMMM (UTC)
 time_start['2025'] = '2025-02-19T14:00.000000000' # Deployment YYYY-MM-DDTHH:MM.MMMM (UTC)
 time_end['2025'] = '2025-04-11T00:00.000000000' # Recovery YYYY-MM-DDTHH:MM.MMMM (UTC)
 time_start['2026'] = '2026-02-06T00:00.000000000' # Deployment YYYY-MM-DDTHH:MM.MMMM (UTC)
@@ -61,7 +59,7 @@ nc = ds.to_netcdf(pathroot + '/data/' + year + '/WeatherStation/WeatherVars_SD.n
 #
 
 # Load data
-df = pd.read_csv('CR1000X_Ten_min_complete.dat',sep=',',skiprows=1)
+df = pd.read_csv(pathroot + '/data/' + year + '/WeatherStation/Logger/CR1000X_Ten_min_complete.dat',sep=',',skiprows=1)
 
 # Clean datafiles
 df = df.drop(labels=[0,1]) # Drop rows with unit and sample type
@@ -84,11 +82,11 @@ ds = ds.astype(float) # conversion makes array into strings, so convert values t
 TD = ds.DP_C_Avg # Dew point
 Ta = ds.AirT_C_Avg # air temp
 RH = 100*(np.exp((17.625*TD)/(243.04+TD))/np.exp((17.625*Ta)/(243.04+Ta))) # Relative humidity
-ds = ds.assign({"Humidity":RH}) # Add humidity to the dataset
+ds = ds.assign({"RH":RH}) # Add humidity to the dataset
 
 # Reduce to deployment time period
 ds = ds.sel(time=slice(time_start[year], time_end[year]))
 
 # Save as NetCDF
-nc = ds.to_netcdf('WeatherVars_CR1000X.nc') # Save to netCDF file
+nc = ds.to_netcdf(pathroot + '/data/' + year + '/WeatherStation/WeatherVars_CR1000X.nc') # Save to netCDF file
 

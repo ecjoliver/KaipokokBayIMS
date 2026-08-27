@@ -22,6 +22,7 @@ ds_S = xr.open_dataset(pathroot + '/data/' + year + '/RBR_IMS/RBR_salinity_densi
 
 # Weather data
 ds_W = xr.open_dataset(pathroot + '/data/' + year + '/WeatherStation/WeatherVars_SD.nc') # SD card data
+ds_W = xr.open_dataset(pathroot + '/data/' + year + '/WeatherStation/WeatherVars_CR1000X.nc') # Logger data
 resampled_data_vars = {var: ds_W[var].resample(time='1H').mean() for var in ds_W.data_vars}
 ds_W = xr.Dataset(resampled_data_vars) # make xr dataset from resampled data
 

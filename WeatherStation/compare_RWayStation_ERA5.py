@@ -41,6 +41,7 @@ ERA5_clim_10 = IMS.climatology(ERA5_daily_time, ERA5_daily.t2m.values, pctile=10
 #
 
 IMSW = xr.open_dataset(pathroot + '/data/' + year + '/WeatherStation/WeatherVars_SD.nc') # SD card data
+#IMSW = xr.open_dataset(pathroot + '/data/' + year + '/WeatherStation/WeatherVars_CR1000X.nc') # Logger card data
 resampled_data_vars = {var: IMSW[var].resample(time='1H').mean() for var in IMSW.data_vars}
 IMSW_hourly = xr.Dataset(resampled_data_vars) # make xr dataset from resampled data
 hours = IMSW_hourly.time.values # For plotting

@@ -14,13 +14,12 @@ mpl.interactive(True)
 
 # Some globals
 exec(open('globals.py').read()) # year[transect], pathroot
-pathroot = os.path.abspath('../../../') # Redefine pathroot
 
 # Labrador coastline - HIGH RES
-shp = shapereader.Reader(pathroot + '/data/GSHHS_Labrador/GSHHS_f_L1_Labrador')
+shp = shapereader.Reader(pathroot + '/Kaipokok_IMS/data/GSHHS_Labrador/GSHHS_f_L1_Labrador')
 
 # Load in Kaipokok Bay transect and IMS coordinates
-df = pd.read_csv(pathroot + '/data/Coordinates/Kaipokok_Bay_Transect.csv')
+df = pd.read_csv(pathroot + '/Kaipokok_IMS/data/Coordinates/Kaipokok_Bay_Transect.csv')
 
 # Short form of site names
 site_labels= {'Pea Point': 'PP', 'Sandbar': 'SAN', 'Halfway Island': 'HI', 'Beaver River Point': 'BRP', 'Rapids': 'RAP', 'Big Point': 'BP', 'PostW': 'PO', 'Postville West': 'POW', 'Goulou': 'GOU', 'Woody Island': 'WI', 'IMS': 'IMS', 'Pugaviks West': 'PUW', 'Pugaviks': 'PUG', 'Alkamy': 'ALK', 'Iggiak': 'IGG', "Cape O'War": 'CW', 'Little Neck': 'LN', 'Ground Island': 'GI', 'Jackos Point': 'JP', 'Cape Point': 'CP', 'Punchin Island': 'PI', 'Black Island': 'BI'}

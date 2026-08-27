@@ -11,8 +11,10 @@ exec(open('../globals.py').read()) # modules, year, pathroot
 df = {}
 # 2024
 if year == '2024':
-    df_1_5m = pd.read_csv('TCM-1/data/2024/1-5m/2112071_Postville_1-5m_(0)_Current.csv',index_col=False,parse_dates=['ISO 8601 Time'])
-    df_2m = pd.read_csv('TCM-1/data/2024/2m/2012078_Postville_2m_(0)_Current.csv',index_col=False,parse_dates=['ISO 8601 Time'])
+    time_start = '2024-01-22T15:30:00.000000' # Deployment YYYY-MM-DDTHH:MM:SS.SSSSSS (UTC)
+    time_end = '2024-04-16T13:00:00.000000' # Recovery YYYY-MM-DDTHH:MM:SS.SSSSSS (UTC)
+    df['1.5'] = pd.read_csv(pathroot + '/data/' + year + '/TCM-1/2112071_Postville_1-5m_(0)_Current.csv',index_col=False,parse_dates=['ISO 8601 Time'])
+    df['2.0'] = pd.read_csv(pathroot + '/data/' + year + '/TCM-1/2012078_Postville_2m_(0)_Current.csv',index_col=False,parse_dates=['ISO 8601 Time'])
 # 2025
 elif year == '2025':
     time_start = '2025-02-12T15:24:00.000000' # Deployment YYYY-MM-DDTHH:MM:SS.SSSSSS (UTC)

@@ -13,7 +13,12 @@ df = df.rename(columns={'Date': 'time'})
 df = df.set_index('time')
 
 # Select ice and snow data columns
-df = df[['Ice thickness (cm)', 'Water level (cm)', 'Snow depth in hole (cm)', 'Snow (1)', 'Snow (2)', 'Snow (3)', 'Snow (4)', 'Snow (5)', 'Snow (6)', 'Snow (7)', 'Snow (8)', 'Snow (9)', 'Cutter volume (cc)', 'Snow weight (1) (g)', 'Snow weight (2) (g)', 'Snow weight (3) (g)']]
+if year == '2024':
+    df = df[['Ice thickness (cm)', 'Water level (cm)', 'Snow depth in hole (cm)', 'Snow (1)', 'Snow (2)', 'Snow (3)', 'Snow (4)', 'Snow (5)', 'Snow (6)', 'Snow (7)', 'Snow (8)', 'Snow (9)']]
+    is_rhos = False
+else:
+    df = df[['Ice thickness (cm)', 'Water level (cm)', 'Snow depth in hole (cm)', 'Snow (1)', 'Snow (2)', 'Snow (3)', 'Snow (4)', 'Snow (5)', 'Snow (6)', 'Snow (7)', 'Snow (8)', 'Snow (9)', 'Cutter volume (cc)', 'Snow weight (1) (g)', 'Snow weight (2) (g)', 'Snow weight (3) (g)']]
+    is_rhos = True
 
 # Rename columns
 df = df.rename(columns={'Ice thickness (cm)': 'hi'})
@@ -28,10 +33,11 @@ df = df.rename(columns={'Snow (6)': 'hs_snowStake_6'})
 df = df.rename(columns={'Snow (7)': 'hs_snowStake_7'})
 df = df.rename(columns={'Snow (8)': 'hs_snowStake_8'})
 df = df.rename(columns={'Snow (9)': 'hs_snowStake_9'})
-df = df.rename(columns={'Cutter volume (cc)': 'Vs'})
-df = df.rename(columns={'Snow weight (1) (g)': 'ms_1'})
-df = df.rename(columns={'Snow weight (2) (g)': 'ms_2'})
-df = df.rename(columns={'Snow weight (3) (g)': 'ms_3'})
+if is_rhos:
+    df = df.rename(columns={'Cutter volume (cc)': 'Vs'})
+    df = df.rename(columns={'Snow weight (1) (g)': 'ms_1'})
+    df = df.rename(columns={'Snow weight (2) (g)': 'ms_2'})
+    df = df.rename(columns={'Snow weight (3) (g)': 'ms_3'})
 
 # Save as xarray
 ds = df.to_xarray()
@@ -72,11 +78,12 @@ ds['hs_snowStake_mean'].data = ds['hs_snowStake_mean'].data/100.
 ds['hs_snowStake_sd'].data = ds['hs_snowStake_sd'].data/100.
 
 # Calculate snow density
-ds['rhos_1'] = (ds['ms_1']*1e-3)/(ds['Vs']*1e-6) # Convert snow mass g->kg, snow volume cc->m3
-ds['rhos_2'] = (ds['ms_2']*1e-3)/(ds['Vs']*1e-6) # Convert snow mass g->kg, snow volume cc->m3
-ds['rhos_3'] = (ds['ms_3']*1e-3)/(ds['Vs']*1e-6) # Convert snow mass g->kg, snow volume cc->m3
-ds['rhos_mean'] = (ds.rhos_1 + ds.rhos_2 + ds.rhos_3)/3. # Mean across the three measurements
-ds['rhos_sd'] = np.sqrt((ds.rhos_1-ds['rhos_mean'])**2 + (ds.rhos_2-ds['rhos_mean'])**2 + (ds.rhos_3-ds['rhos_mean'])**2)/3. # Std dev across the three measurements
+if is_rhos:
+    ds['rhos_1'] = (ds['ms_1']*1e-3)/(ds['Vs']*1e-6) # Convert snow mass g->kg, snow volume cc->m3
+    ds['rhos_2'] = (ds['ms_2']*1e-3)/(ds['Vs']*1e-6) # Convert snow mass g->kg, snow volume cc->m3
+    ds['rhos_3'] = (ds['ms_3']*1e-3)/(ds['Vs']*1e-6) # Convert snow mass g->kg, snow volume cc->m3
+    ds['rhos_mean'] = (ds.rhos_1 + ds.rhos_2 + ds.rhos_3)/3. # Mean across the three measurements
+    ds['rhos_sd'] = np.sqrt((ds.rhos_1-ds['rhos_mean'])**2 + (ds.rhos_2-ds['rhos_mean'])**2 + (ds.rhos_3-ds['rhos_mean'])**2)/3. # Std dev across the three measurements
 
 # Save as NetCDF file
 nc = ds.to_netcdf(pathroot + '/data/' + year + '/SiteVisits/SiteVisits_Weekly_IceSnowWater.nc')

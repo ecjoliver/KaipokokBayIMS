@@ -277,6 +277,7 @@ Chlims[transect] = [0, 1.5]
 CDlims[transect] = [0, 12]
 BSlims[transect] = [0.0005, 0.009]
 DOlims[transect] = [320, 440]
+OSlims[transect] = [85, 120]
 
 # Trout Net Point-Julie's Point (Kaipokok Bay)
 # Winter 2025

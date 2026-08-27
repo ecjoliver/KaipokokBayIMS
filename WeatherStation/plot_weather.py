@@ -6,8 +6,8 @@
 exec(open('../globals.py').read()) # modules, year, pathroot
 
 # Load data
-#ds = xr.open_dataset('Weather/data/2024/WeatherVars_CR1000X.nc') # Logger data
 ds = xr.open_dataset('../../data/' + year + '/WeatherStation/WeatherVars_SD.nc') # SD card data
+#ds = xr.open_dataset('../../data/' + year + '/WeatherStation/WeatherVars_CR1000X.nc') # Logger data
 resampled_data_vars = {var: ds[var].resample(time='1H').mean() for var in ds.data_vars}
 ds_hourly = xr.Dataset(resampled_data_vars) # make xr dataset from resampled data
 hours = ds_hourly.time.values # For plotting

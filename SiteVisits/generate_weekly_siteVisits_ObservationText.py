@@ -24,14 +24,17 @@ for i in range(len(df)):
     if str(df['Field notes'][i]) != 'nan':
         f.write('**Field notes:** ')
         f.write(df['Field notes'][i] + '  \r')
-    if str(df['Ice core notes'][i]) != 'nan':
-        f.write('**Ice core notes:** ')
-        f.write(df['Ice core notes'][i] + '  \r')
+    try: 
+        df['Ice core notes'][i]
+    except KeyError:
+        print('Ice core notes does not exist in file')
+    else:
+        if str(df['Ice core notes'][i]) != 'nan':
+            f.write('**Ice core notes:** ')
+            f.write(df['Ice core notes'][i] + '  \r')
     if str(df['Data notes'][i]) != 'nan':
         f.write('**Data notes:** ')
         f.write(df['Data notes'][i] + '  \r')
     f.write('\r')
 f.close()
-
-
 

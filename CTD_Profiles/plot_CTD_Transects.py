@@ -12,7 +12,7 @@ fontsize=12
 
 # Transect definitions (metadata: field trip and site names)
 exec(open('transect_list.py').read())
-transect = 'Kaipokok Bay (2025 Oct)' # Choose which one to plot here
+transect = 'Kaipokok Bay (2023 Apr)' # Choose which one to plot here
 
 #
 # Load in data
@@ -223,7 +223,8 @@ for key in ctd.data_vars:
         # If a site is missing data, skip it and interpolate the last site with the next one
         ctd_valid = ctd[key].dropna(dim='site', how='all')
         sites_valid = ctd_valid.site.values
-        ctdS[key], llon[key], ddepth[key] = IMS.interpSectionStitch(sites_valid, ctd, ctd.longitude.values, key, dlon)
+        coord = dict(zip(sites_valid, ctd.longitude.values[np.in1d(ctd.site.values, sites_valid)]))
+        ctdS[key], llon[key], ddepth[key] = IMS.interpSectionStitch(sites_valid, ctd, coord, key, dlon)
 
 # Buoyancy frequency
 p = gsw.p_from_z(-ddepth['Absolute_Salinity'], 54.959)
@@ -240,7 +241,7 @@ for site in ctd.site.data:
     site_labels.append(site_labels_full[site])
 
 # Basics (temp, salt, density)
-plt.figure(num=1, figsize=(16,10))
+plt.figure(figsize=(16,10))
 plt.clf()
 w = 25
 # Ice and snow thickness
