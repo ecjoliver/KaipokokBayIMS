@@ -1,6 +1,6 @@
 # Code used to process Kaipokok Bay Ice Monitoring Site data
 
-See the Kaipokok Bay IMS guide for instructions on using this code.
+See the [Kaipokok Bay IMS guide for instructions on using this code](https://docs.google.com/document/d/1ZIIIO4hB38W5c_A9Shb1LlXLp7MNuTDqaOvXAR2C17Q/preview).
 
 It is assumed that each python script is run from the same directory where that script lies. All paths are relative to that directory.
 
