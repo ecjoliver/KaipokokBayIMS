@@ -9,7 +9,7 @@ fontsize=12
 # Load weather data
 ds_weather = xr.open_dataset(pathroot + '/data/' + year + '/WeatherStation/WeatherVars_SD.nc')
 #ds_weather = xr.open_dataset(pathroot + '/data/' + year + '/WeatherStation/WeatherVars_CR1000X.nc')
-ds_weather = ds_weather.resample(time="1H").mean('time')
+ds_weather = ds_weather.resample(time="1h").mean('time')
 weath_temp = ds_weather['AirT_C_Avg']
 
 # Load SIMBA temperature data

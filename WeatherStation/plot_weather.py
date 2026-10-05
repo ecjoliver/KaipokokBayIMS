@@ -8,7 +8,7 @@ exec(open('../globals.py').read()) # modules, year, pathroot
 # Load data
 ds = xr.open_dataset('../../data/' + year + '/WeatherStation/WeatherVars_SD.nc') # SD card data
 #ds = xr.open_dataset('../../data/' + year + '/WeatherStation/WeatherVars_CR1000X.nc') # Logger data
-resampled_data_vars = {var: ds[var].resample(time='1H').mean() for var in ds.data_vars}
+resampled_data_vars = {var: ds[var].resample(time='1h').mean() for var in ds.data_vars}
 ds_hourly = xr.Dataset(resampled_data_vars) # make xr dataset from resampled data
 hours = ds_hourly.time.values # For plotting
 
@@ -16,7 +16,7 @@ hours = ds_hourly.time.values # For plotting
 # To plot albedo, get rid of points when solar elevation is less than 10 degrees above the horizon
 # For now, just manually remove albedo values that are not within 0 and 1
 Albedo_Avg = ds.Albedo_Avg
-albedo_hourly = Albedo_Avg.resample(time='1H').mean('time')
+albedo_hourly = Albedo_Avg.resample(time='1h').mean('time')
 albedo_hourly_clean = albedo_hourly.where((albedo_hourly >= 0) & (albedo_hourly <=1), other=np.nan)
 
 # Wind

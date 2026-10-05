@@ -713,7 +713,7 @@ def interpSectionStitch_time(times, ctd, coord, field, dx):
     for i,time in enumerate(times):
         x1 = min(coord[i], x1)
         x2 = max(coord[i], x2)
-        d2 = max(np.nanmax(ctd['Depth'].data[np.in1d(coord, time),:]), d2)
+        d2 = max(np.nanmax(ctd['Depth'].data[np.isin(coord, time),:]), d2)
 
     # Interpolation coordinates
     dd = 0.05
@@ -752,12 +752,12 @@ def interpSection_time(x_sec, depth_sec, times, ctd, coord, field):
     field_sparse = np.array([])
     for i,time in enumerate(times):
         #site_data = ctd.sel(site=site)  # Select data for the current site
-        time_data_depth = ctd['Depth'].data[np.in1d(coord, time),:] # Select depth data for the current time
-        time_data_field = ctd[field].data[np.in1d(coord, time),:] # Select field data for the current time
+        time_data_depth = ctd['Depth'].data[np.isin(coord, time),:] # Select depth data for the current time
+        time_data_field = ctd[field].data[np.isin(coord, time),:] # Select field data for the current time
         valid = ~np.isnan(time_data_field)
         if valid.sum() == 0:
             continue # skip if all values are nans
-        x_sparse = np.append(x_sparse, np.array(coord)[np.in1d(coord, time)][0]*(time_data_depth[valid]*0+1))
+        x_sparse = np.append(x_sparse, np.array(coord)[np.isin(coord, time)][0]*(time_data_depth[valid]*0+1))
         depth_sparse = np.append(depth_sparse, time_data_depth[valid])
         field_sparse = np.append(field_sparse, time_data_field[valid])
 
@@ -766,4 +766,47 @@ def interpSection_time(x_sec, depth_sec, times, ctd, coord, field):
     return field_sec, xx_sec, depth_sec
 
 
+def timevector(date_start, date_end):
+    '''
+    Generated daily time vector, along with year, month, day, day-of-year,
+    and full date information, given start and and date. Format is a 3-element
+    list so that a start date of 3 May 2005 is specified date_start = [2005,5,3]
+    Note that day-of year (doy) is [0 to 59, 61 to 366] for non-leap years and [0 to 366]
+    for leap years.
+    returns: t, dates, T, year, month, day, doy
+    '''
+    # Time vector
+    t = np.arange(date(date_start[0],date_start[1],date_start[2]).toordinal(),date(date_end[0],date_end[1],date_end[2]).toordinal()+1)
+    T = len(t)
+    # Date list
+    dates = [date.fromordinal(tt.astype(int)) for tt in t]
+    # Vectors for year, month, day-of-month
+    year = np.zeros((T))
+    month = np.zeros((T))
+    day = np.zeros((T))
+    for tt in range(T):
+        year[tt] = date.fromordinal(t[tt]).year
+        month[tt] = date.fromordinal(t[tt]).month
+        day[tt] = date.fromordinal(t[tt]).day
+    year = year.astype(int)
+    month = month.astype(int)
+    day = day.astype(int)
+    # Leap-year baseline for defining day-of-year values
+    year_leapYear = 2012 # This year was a leap-year and therefore doy in range of 1 to 366
+    t_leapYear = np.arange(date(year_leapYear, 1, 1).toordinal(),date(year_leapYear, 12, 31).toordinal()+1)
+    dates_leapYear = [date.fromordinal(tt.astype(int)) for tt in t_leapYear]
+    month_leapYear = np.zeros((len(t_leapYear)))
+    day_leapYear = np.zeros((len(t_leapYear)))
+    doy_leapYear = np.zeros((len(t_leapYear)))
+    for tt in range(len(t_leapYear)):
+        month_leapYear[tt] = date.fromordinal(t_leapYear[tt]).month
+        day_leapYear[tt] = date.fromordinal(t_leapYear[tt]).day
+        doy_leapYear[tt] = t_leapYear[tt] - date(date.fromordinal(t_leapYear[tt]).year,1,1).toordinal() + 1
+    # Calculate day-of-year values
+    doy = np.zeros((T))
+    for tt in range(T):
+        doy[tt] = doy_leapYear[(month_leapYear == month[tt]) * (day_leapYear == day[tt])]
+    doy = doy.astype(int)
+
+    return t, dates, T, year, month, day, doy
 

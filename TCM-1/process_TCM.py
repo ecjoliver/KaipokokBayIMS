@@ -59,7 +59,7 @@ da_tcm['Velocity-E'] = da_tcm['Velocity-E']/100
 da_tcm['Speed'] = da_tcm['Speed']/100
 
 # Convert to hourly
-da_tcm_hourly = da_tcm.resample(time='1H').mean('time')
+da_tcm_hourly = da_tcm.resample(time='1h').mean('time')
 
 #
 # Remove tides
