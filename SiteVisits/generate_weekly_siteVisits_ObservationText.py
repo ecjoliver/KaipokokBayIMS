@@ -11,19 +11,19 @@ df = pd.read_excel(pathroot + '/data/' + year + '/SiteVisits/SiteVisits_' + year
 # Create Markdown file with observations
 f = open(pathroot + '/data/' + year + '/SiteVisits/SiteVisits_Weekly_Observations.md', 'w')
 for i in range(len(df)):
-    f.write('***' + df.Date[i].strftime('%d %B %Y') + '***  \r')
+    f.write('***' + df.Date[i].strftime('%d %B %Y') + '***  \n')
     if str(df['Weather when collected'][i]) != 'nan':
         f.write('**Weather:** ')
-        f.write(df['Weather when collected'][i] + '  \r')
+        f.write(df['Weather when collected'][i] + '  \n')
     if str(df['Ice/snow conditions'][i]) != 'nan':
         f.write('**Ice/snow conditions:** ')
-        f.write(df['Ice/snow conditions'][i] + '  \r')
+        f.write(df['Ice/snow conditions'][i] + '  \n')
     if str(df['Observations (e.g. Facebook discussions)'][i]) != 'nan':
         f.write('**Observations:** ')
-        f.write(df['Observations (e.g. Facebook discussions)'][i] + '  \r')
+        f.write(df['Observations (e.g. Facebook discussions)'][i] + '  \n')
     if str(df['Field notes'][i]) != 'nan':
         f.write('**Field notes:** ')
-        f.write(df['Field notes'][i] + '  \r')
+        f.write(df['Field notes'][i] + '  \n')
     try: 
         df['Ice core notes'][i]
     except KeyError:
@@ -31,10 +31,10 @@ for i in range(len(df)):
     else:
         if str(df['Ice core notes'][i]) != 'nan':
             f.write('**Ice core notes:** ')
-            f.write(df['Ice core notes'][i] + '  \r')
+            f.write(df['Ice core notes'][i] + '  \n')
     if str(df['Data notes'][i]) != 'nan':
         f.write('**Data notes:** ')
-        f.write(df['Data notes'][i] + '  \r')
-    f.write('\r')
+        f.write(df['Data notes'][i] + '  \n')
+    f.write('\n')
 f.close()
 
