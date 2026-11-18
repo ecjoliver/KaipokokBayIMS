@@ -14,7 +14,7 @@ header = '/home/eoliver/Dropbox/Nunatsiavut_Futures/WP2_Data_Repository/CTD/'
 
 # Transect definitions (metadata: field trip and site names)
 exec(open('transect_list.py').read())
-transect = 'Kaipokok Bay (2023 Apr)' # Choose which one to plot here
+transect = 'Kaipokok Bay (2026 Nov)' # Choose which one to process
 
 #
 # Load in data
@@ -122,7 +122,7 @@ for i in range(N2_Ld.shape[0]):
     # First baroclinic gravity wave speed [m/s]
     valid = ~np.isnan(z_mid[i,:])
     isort = np.flipud(np.argsort(z_mid[i,valid]))
-    c1[i] = -np.trapz(np.sqrt(N2_Ld[i,valid][isort]), z_mid[i,valid][isort]) / np.pi
+    c1[i] = -np.trapezoid(np.sqrt(N2_Ld[i,valid][isort]), z_mid[i,valid][isort]) / np.pi
     # Rossby radius of deformation [m]
     Ld[i] = c1[i] / np.abs(gsw.f(54.959))
 # Fix values with no data

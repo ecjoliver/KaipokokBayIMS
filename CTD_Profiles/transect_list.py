@@ -279,6 +279,27 @@ BSlims[transect] = [0.0005, 0.009]
 DOlims[transect] = [320, 440]
 OSlims[transect] = [85, 120]
 
+# Fall 2026 
+transect = 'Kaipokok Bay (2026 Nov)'
+year[transect] = '2026'
+community[transect] = 'Postville'
+siteList[transect] = [['2026_11_10', 'Pea Point'], ['2026_11_10', 'Sandbar'], ['2026_11_10', 'Halfway Island'], ['2026_11_10', 'Beaver River Point'], ['2026_11_10', 'Rapids'], ['2026_11_10', 'Big Point'], ['2026_11_10', 'PostW'], ['2026_11_10', 'Postville West'], ['2026_11_10', 'Goulou'], ['2026_11_10', 'Woody Island'], ['2026_11_10', 'IMS'], ['2026_11_10', 'Pugaviks West'], ['2026_11_10', 'Pugaviks'], ['2026_11_10', 'Alkamy'], ['2026_11_10', 'Iggiak'], ['2026_11_10', 'Little Neck'], ['2026_11_10', 'Jackos Point'], ['2026_11_10', 'Cape Point']]
+xlims[transect] = np.array([-59.932701, -59.35074])
+Dmax[transect] = 120.
+thicklims[transect] = np.array([-1., 0.3])
+Tlims[transect] = [-1.75, 10.]
+Slims[transect] = [4, 32]
+Dlims[transect] = [1012, 1026]
+N2lims[transect] = [0, 0.02]
+CSlims[transect] = [1440, 1465]
+FTlims[transect] = [-10., 10.]
+Chlims[transect] = [0, 1.5]
+CDlims[transect] = [0, 12]
+BSlims[transect] = [0.0005, 0.009]
+DOlims[transect] = [320, 440]
+OSlims[transect] = [85, 120]
+
+
 # Trout Net Point-Julie's Point (Kaipokok Bay)
 # Winter 2025
 transect = 'Trout-Julie (2025 Feb)'

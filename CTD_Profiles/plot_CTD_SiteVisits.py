@@ -55,7 +55,7 @@ n = 1  # Keep every nth label
 [l.set_visible(False) for (i,l) in enumerate(cbar.ax.yaxis.get_ticklabels()) if i % n != 0]
 cbar.ax.tick_params(labelsize=fontsize-2)
 
-# plt.savefig('../../figures/' + year + '/CTD_Profiles/CTD_IMS_SiteVisits_Profiles_Top10m.png', dpi=600, bbox_inches='tight')
+plt.savefig('../../figures/' + year + '/CTD_Profiles/CTD_IMS_SiteVisits_Profiles_Top10m.png', dpi=600, bbox_inches='tight')
 
 # Profiles (full depth)
 cm = plt.cm.turbo(np.linspace(0, 1, len(ctd.date))) # create colormap for time
@@ -92,14 +92,14 @@ n = 1  # Keep every nth label
 [l.set_visible(False) for (i,l) in enumerate(cbar.ax.yaxis.get_ticklabels()) if i % n != 0]
 cbar.ax.tick_params(labelsize=fontsize-2)
 
-# plt.savefig('../../figures/' + year + '/CTD_Profiles/CTD_IMS_SiteVisits_Profiles_FullDepth.png', dpi=600, bbox_inches='tight')
+plt.savefig('../../figures/' + year + '/CTD_Profiles/CTD_IMS_SiteVisits_Profiles_FullDepth.png', dpi=600, bbox_inches='tight')
 
 #
 # TS diagrams
 #
 
 # Density contours
-T_range = np.linspace(-2, np.ceil(ctd.Conservative_Temperature.max()*2)/2)
+T_range = np.linspace(-2, float(np.ceil(ctd.Conservative_Temperature.max()*2)/2))
 S_range = np.linspace(0, 35)
 Tg, Sg = np.meshgrid(T_range, S_range)
 sigma_theta = gsw.density.sigma0(Sg, Tg)
@@ -129,7 +129,7 @@ plt.xlim([0,34])
 # Date
 ax = plt.subplot(232)
 n_lines = len(ctd.date) # IMS timeseries
-cmap = mpl.cm.get_cmap('turbo', n_lines)
+cmap = mpl.colormaps['turbo'].resampled(n_lines) #mpl.cm.get_cmap('turbo', n_lines)
 tc = np.arange(1., len(ctd.date)+1)
 dummie_cax = plt.scatter(tc, tc, c=tc, cmap=cmap)
 cbar = plt.colorbar()
@@ -198,7 +198,7 @@ plt.xlim([0,34])
 #
 plt.tight_layout()
 
-# plt.savefig('../../figures/' + year + '/CTD_Profiles/CTD_IMS_SiteVisits_TS.png', dpi=600, bbox_inches='tight')
+plt.savefig('../../figures/' + year + '/CTD_Profiles/CTD_IMS_SiteVisits_TS.png', dpi=600, bbox_inches='tight')
 
 #
 # Interpolated CTD time series in (t,z) space
@@ -328,7 +328,7 @@ ax.spines['top'].set_visible(False)
 cax = plt.subplot2grid((7,w), (5,w-1), rowspan=2, colspan=1)
 plt.colorbar(cax=cax, label='Density, $\\rho_\\theta$ (kg/m$^3$)')
 
-# plt.savefig('../../figures/' + year + '/CTD_Profiles/CTD_IMS_SiteVisits_Interpolated_TempSaltIce.png', dpi=600, bbox_inches='tight')
+plt.savefig('../../figures/' + year + '/CTD_Profiles/CTD_IMS_SiteVisits_Interpolated_TempSaltIce.png', dpi=600, bbox_inches='tight')
 
 # Higher order physical properties (N2, speed of sound, T-T_fr)
 plt.figure(figsize=(16,10))
@@ -415,7 +415,7 @@ ax.spines['top'].set_visible(False)
 cax = plt.subplot2grid((7,w), (5,w-1), rowspan=2, colspan=1)
 plt.colorbar(cax=cax, label=r'$\Theta-\Theta_\mathrm{fr}$ ($^\circ$C)')
 
-# plt.savefig('../../figures/' + year + '/CTD_Profiles/CTD_IMS_SiteVisits_Interpolated_HigherOrderPO.png', dpi=600, bbox_inches='tight')
+plt.savefig('../../figures/' + year + '/CTD_Profiles/CTD_IMS_SiteVisits_Interpolated_HigherOrderPO.png', dpi=600, bbox_inches='tight')
 
 # BGC Variables
 plt.figure(figsize=(18,10))
@@ -518,5 +518,5 @@ ax.spines['top'].set_visible(False)
 cax = plt.subplot2grid((8,w), (6,w-1), rowspan=2, colspan=1)
 plt.colorbar(cax=cax, label='Oxygen Satuation (%)')
 
-# plt.savefig('../../figures/' + year + '/CTD_Profiles/CTD_IMS_SiteVisits_Interpolated_BGC.png', dpi=600, bbox_inches='tight')
+plt.savefig('../../figures/' + year + '/CTD_Profiles/CTD_IMS_SiteVisits_Interpolated_BGC.png', dpi=600, bbox_inches='tight')
 

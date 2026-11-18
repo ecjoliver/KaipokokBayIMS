@@ -12,7 +12,7 @@ fontsize=12
 
 # Transect definitions (metadata: field trip and site names)
 exec(open('transect_list.py').read())
-transect = 'Kaipokok Bay (2023 Apr)' # Choose which one to plot here
+transect = 'Kaipokok Bay (2026 Nov)' # Choose which one to plot here
 
 #
 # Load in data
@@ -103,7 +103,7 @@ plt.savefig('../../figures/' + year[transect] + '/CTD_Profiles/CTD_IMS_Transect_
 #
 
 # Density contours
-T_range = np.linspace(-2, np.ceil(ctd.Conservative_Temperature.max()*2)/2)
+T_range = np.linspace(-2, float(np.ceil(ctd.Conservative_Temperature.max()*2)/2))
 S_range = np.linspace(0, 35)
 Tg, Sg = np.meshgrid(T_range, S_range)
 sigma_theta = gsw.density.sigma0(Sg, Tg)
@@ -133,7 +133,7 @@ plt.xlim([0,34])
 # Location
 ax = plt.subplot(232)
 n_lines = len(ctd.site) # IMS timeseries
-cmap = mpl.cm.get_cmap('turbo', n_lines)
+cmap = mpl.colormaps['turbo'].resampled(n_lines) #mpl.cm.get_cmap('turbo', n_lines)
 tc = np.arange(1., len(ctd.site)+1)
 dummie_cax = plt.scatter(tc, tc, c=tc, cmap=cmap)
 cbar = plt.colorbar()
@@ -223,7 +223,7 @@ for key in ctd.data_vars:
         # If a site is missing data, skip it and interpolate the last site with the next one
         ctd_valid = ctd[key].dropna(dim='site', how='all')
         sites_valid = ctd_valid.site.values
-        coord = dict(zip(sites_valid, ctd.longitude.values[np.in1d(ctd.site.values, sites_valid)]))
+        coord = dict(zip(sites_valid, ctd.longitude.values[np.isin(ctd.site.values, sites_valid)]))
         ctdS[key], llon[key], ddepth[key] = IMS.interpSectionStitch(sites_valid, ctd, coord, key, dlon)
 
 # Buoyancy frequency
